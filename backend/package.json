@@ -1,0 +1,27 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@hapi/hapi": "^21.4.0",
+    "@hapi/inert": "^7.1.0",
+    "@hapi/jwt": "^3.2.0",
+    "@hapi/vision": "^7.0.3",
+    "@prisma/client": "^6.8.2",
+    "dotenv": "^16.5.0",
+    "hapi-swagger": "^17.3.2",
+    "prisma": "^6.8.2",
+    "swagger-ui-dist": "^5.22.0",
+    "zod": "^3.25.23"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
