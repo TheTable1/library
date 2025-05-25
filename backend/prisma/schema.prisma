@@ -16,13 +16,14 @@ generator client {
 
 model User {
   id           Int      @id @default(autoincrement())
-  name         String
+  fName        String
+  lName        String
   email        String   @unique
   phone        String
   password     String
-  address     String
+  address      String
   role         String   @default("user")
-  photo        String
+  photo        String?
   memberSince  DateTime @default(now())
   lists        List[]
 }
