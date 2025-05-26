@@ -1,12 +1,21 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const bcrypt = require("bcrypt");
 
 const { formatDateTime } = require("../utils/dateTime.utils");
+
+const validateUser = async (email, plainPassword) => {
+  const user = await prisma.user.findUnique({ where: { email } });
+  if (!user) throw new Error("Invalid credentials");
+  const match = await bcrypt.compare(plainPassword, user.password);
+  if (!match) throw new Error("Invalid credentials");
+  return user;
+};
 
 const getAllUsers = async () => {
   const users = await prisma.user.findMany();
   return users.map((user) => ({
-    id: user.uId,
+    id: user.id,
     firstName: user.fName,
     lastName: user.lName,
     email: user.email,
@@ -19,12 +28,12 @@ const getAllUsers = async () => {
 };
 
 const getUserById = async (id) => {
-  const user = await prisma.user.findUnique({ where: { uId: Number(id) } });
+  const user = await prisma.user.findUnique({ where: { id: Number(id) } });
   if (!user) {
     throw new Error("User not found");
   }
   return {
-    id: user.uId,
+    id: user.id,
     firstName: user.fName,
     lastName: user.lName,
     email: user.email,
@@ -37,9 +46,12 @@ const getUserById = async (id) => {
 };
 
 const createUser = async (data) => {
-  const newUser = await prisma.user.create({ data });
+  const hashed = await bcrypt.hash(data.password, 10);
+  const newUser = await prisma.user.create({
+    data: { ...data, password: hashed },
+  });
   return {
-    id: newUser.uId,
+    id: newUser.id,
     firstName: newUser.fName,
     lastName: newUser.lName,
     email: newUser.email,
@@ -52,7 +64,7 @@ const createUser = async (data) => {
 
 const updateUser = async (id, data) => {
   const updated = await prisma.user.update({
-    where: { uId: Number(id) },
+    where: { id: Number(id) },
     data,
   });
   return {
@@ -69,9 +81,9 @@ const updateUser = async (id, data) => {
 };
 
 const deleteUser = async (id) => {
-  const deleted = await prisma.user.delete({ where: { uId: Number(id) } });
+  const deleted = await prisma.user.delete({ where: { id: Number(id) } });
   return {
-    id: deleted.uId,
+    id: deleted.id,
     firstName: deleted.fName,
     lastName: deleted.lName,
     email: deleted.email,
@@ -84,6 +96,7 @@ const deleteUser = async (id) => {
 };
 
 module.exports = {
+  validateUser,
   getAllUsers,
   getUserById,
   createUser,

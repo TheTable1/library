@@ -1,4 +1,3 @@
-const { ZodError } = require("zod");
 const {
   createUserSchema,
   updateUserSchema,
@@ -16,7 +15,10 @@ const {
 const getAllUsers = {
   description: "Get all users",
   tags: ["api", "users"],
-  auth: false,
+  auth: {
+    strategy: "jwt",
+    scope: ["admin"],
+  },
   handler: async (request, h) => {
     try {
       const users = await userService.getAllUsers();
@@ -31,7 +33,6 @@ const getAllUsers = {
 const getUserById = {
   description: "Get user by ID",
   tags: ["api", "users"],
-  auth: false,
   validate: {
     params: validateZod(idParamSchema),
   },
@@ -50,7 +51,7 @@ const getUserById = {
 const createUser = {
   description: "Create a new user",
   tags: ["api", "users"],
-  auth: false,
+  auth: false, 
   validate: {
     payload: validateZod(createUserSchema),
   },
@@ -60,10 +61,6 @@ const createUser = {
       return created(h, newUser, "User created successfully");
     } catch (err) {
       console.error(err);
-      if (err instanceof ZodError) {
-        const msg = err.issues.map((i) => i.message).join(", ");
-        return error(h, msg, 400);
-      }
       return error(h, err.message);
     }
   },
@@ -72,7 +69,6 @@ const createUser = {
 const updateUser = {
   description: "Update user by ID",
   tags: ["api", "users"],
-  auth: false,
   validate: {
     params: validateZod(idParamSchema),
     payload: validateZod(updateUserSchema),
@@ -95,7 +91,6 @@ const updateUser = {
 const deleteUser = {
   description: "Delete user by ID",
   tags: ["api", "users"],
-  auth: false,
   validate: {
     params: validateZod(idParamSchema),
   },
