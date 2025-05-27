@@ -46,20 +46,40 @@ const getBookById = async (id) => {
 };
 
 const createBook = async (data) => {
-    const b = await prisma.book.create({ data });
-    return {
-        id: b.id,
-        name: b.name,
-        author: b.author,
-        isbn: b.isbn,
-        totalCopies: b.totalCopies,
-        availableCopies: b.availableCopies,
-        photo: b.photo,
-        detail: b.detail,
-        page: b.page,
-        price: b.price,
-    };
+  const {
+    name,
+    author,
+    isbn,
+    totalCopies,
+    availableCopies,
+    detail,
+    page,
+    price,
+    categories, 
+  } = data;
+
+  return prisma.book.create({
+    data: {
+      name,
+      author,
+      isbn,
+      totalCopies,
+      availableCopies,
+      detail,
+      page,
+      price,
+      categories: {
+        create: categories.map((catId) => ({ categoryId: catId })),
+      },
+    },
+    include: {
+      categories: {
+        select: { category: { select: { name: true } } },
+      },
+    },
+  });
 };
+  
 
 const updateBook = async (id, data) => {
     const b = await prisma.book.update({ where: { id: Number(id) }, data });
