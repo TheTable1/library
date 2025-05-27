@@ -1,3 +1,29 @@
+
+/* 1) กำหนดตัวแปรสี */
+:root {
+    --color-darkblue      : #233151;
+    --color-darkblue-hover: #1f2a43;
+}
+
 @tailwind base;
 @tailwind components;
-@tailwind utilities;
+
+/* 2) สร้างคลาสสีด้วย @layer utilities */
+@layer utilities {
+    .text-darkblue{
+        color: var(--color-darkblue);
+    }
+
+    .bg-darkblue {
+        background-color: var(--color-darkblue);
+    }
+
+    .hover\:bg-darkblue-hover:hover {
+        background-color: var(--color-darkblue-hover);
+    }
+    .cp{
+        cursor:pointer;
+    }
+}
+
+@tailwind utilities;  

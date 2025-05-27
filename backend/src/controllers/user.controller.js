@@ -30,6 +30,23 @@ const getAllUsers = {
   },
 };
 
+const getMe = {
+  description: "Get logged in user profile",
+  tags: ["api", "users"],
+  auth: { strategy: "jwt" }, // ต้อง login
+  handler: async (request, h) => {
+    try {
+      const { id } = request.auth.credentials;
+      const user = await userService.getUserById(id);
+      if (!user) return notFound(h, "User not found");
+      return success(h, user, "Fetched profile");
+    } catch (err) {
+      console.error(err);
+      return error(h, err.message);
+    }
+  },
+};
+
 const getUserById = {
   description: "Get user by ID",
   tags: ["api", "users"],
@@ -112,4 +129,5 @@ module.exports = {
   createUser,
   updateUser,
   deleteUser,
+  getMe,
 };

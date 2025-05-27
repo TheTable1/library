@@ -1,5 +1,12 @@
 <template>
-    <div class="min-h-screen bg-gray-100 py-10">
+  <div class="flex min-h-screen bg-gray-100">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-[#1f2937] text-gray-300">
+      <NavBar />
+    </aside>
+
+    <!-- Main content -->
+    <main class="flex-1 p-10">
       <div class="max-w-4xl mx-auto bg-white shadow rounded-lg p-6">
         <h1 class="text-2xl font-bold mb-6 text-gray-800">User List</h1>
   
@@ -34,39 +41,44 @@
           </tbody>
         </table>
       </div>
-    </div>
-  </template>
-  
-  <script setup>
-  import { ref, onMounted } from 'vue'
-  
-  const users = ref([])
-  const loading = ref(false)
-  const error = ref('')
-  
-  function getToken() {
-    return localStorage.getItem('token') || ''
+    </main>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+import NavBar from '~/components/NavBar.vue'
+
+// reactive state
+const users = ref([])
+const loading = ref(false)
+const error = ref('')
+
+// helper: ดึง token
+function getToken() {
+  return localStorage.getItem('token') || ''
+}
+
+// ดึงข้อมูล users
+async function fetchUsers() {
+  loading.value = true
+  error.value = ''
+  try {
+    const token = getToken()
+    const res = await $fetch('/users', {
+      baseURL: 'http://localhost:3000',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    users.value = res.data
+  } catch (e) {
+    error.value = e.data?.message || e.message || 'Failed to load users'
+  } finally {
+    loading.value = false
   }
-  
-  async function fetchUsers() {
-    loading.value = true
-    error.value = ''
-    try {
-      const token = getToken()
-      const res = await $fetch('/users', {
-        baseURL: 'http://localhost:3000',
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
-      users.value = res.data
-    } catch (e) {
-      error.value = e.data?.message || e.message || 'Failed to load users'
-    } finally {
-      loading.value = false
-    }
-  }
-  
-  onMounted(fetchUsers)
-  </script>
-  
+}
+
+// เมื่อ component mount ให้ fetch
+onMounted(fetchUsers)
+</script>

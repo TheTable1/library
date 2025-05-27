@@ -8,6 +8,11 @@ module.exports = [
   },
   {
     method: "GET",
+    path: "/users/me",
+    options: userController.getMe,
+  },
+  {
+    method: "GET",
     path: "/users/{id}",
     options: userController.getUserById,
   },

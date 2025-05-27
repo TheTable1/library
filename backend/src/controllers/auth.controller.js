@@ -17,7 +17,7 @@ const login = {
       const { email, password } = request.payload;
       const user = await userService.validateUser(email, password);
       const token = signToken({
-        id: user.uId,
+        id: user.id,
         email: user.email,
         role: user.role,
       });
