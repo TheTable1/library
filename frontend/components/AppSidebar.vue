@@ -174,26 +174,6 @@
                   <span v-show="!isCollapsed" class="transition-opacity duration-200">Analytics</span>
                 </a>
               </li>
-              <!-- Reports -->
-              <li>
-                <a
-                  href="/reports"
-                  :class="[
-                    'flex items-center py-2.5 text-sm font-medium rounded-lg transition-colors duration-200',
-                    isCollapsed ? 'justify-center' : 'pl-3 pr-2',
-                    isActive('/reports').value
-                      ? 'bg-blue-600 text-white'
-                      : 'text-gray-300 hover:bg-gray-800 hover:text-white'
-                  ]"
-                >
-                  <UIcon
-                    name="i-lucide-file-text"
-                    class="text-lg flex-shrink-0"
-                    :class="isCollapsed ? '' : 'mr-3'"
-                  />
-                  <span v-show="!isCollapsed" class="transition-opacity duration-200">Reports</span>
-                </a>
-              </li>
             </ul>
           </div>
         </nav>

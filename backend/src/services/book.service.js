@@ -32,28 +32,40 @@ const getAllBooks = async () => {
 };
 
 const getBookById = async (id) => {
+  const bookId = Number(id);
+
   const book = await prisma.book.findUnique({
     where: { id: bookId },
-    include: { categories: { include: { category: true } } },
+    include: {
+      categories: {
+        include: { category: true },
+      },
+    },
   });
-  if (!book || book.deleted) throw new Error("Book not found");  
+
+  if (!book || book.deleted) {
+    throw new Error("Book not found");
+  }
   return {
-    id: b.id,
-    name: b.name,
-    author: b.author,
-    isbn: b.isbn,
-    totalCopies: b.totalCopies,
-    availableCopies: b.availableCopies,
-    photo: b.photo,
-    detail: b.detail,
-    page: b.page,
-    price: b.price,
-    categories: b.categories.map((c) => ({
-      id: c.id,
-      categoryId: c.categoryId,
+    id: book.id,
+    name: book.name,
+    author: book.author,
+    isbn: book.isbn,
+    totalCopies: book.totalCopies,
+    availableCopies: book.availableCopies,
+    photo: book.photo,
+    detail: book.detail,
+    page: book.page,
+    price: book.price,
+
+    categories: book.categories.map((bc) => ({
+      id: bc.id,
+      categoryId: bc.categoryId,
+      name: bc.category.name,
     })),
   };
 };
+
 
 const createBook = async (data) => {
   const {
