@@ -120,7 +120,7 @@ async function onSubmit() {
      throw new Error("No token in response");
    }
     localStorage.setItem("token", token);
-    router.push("/user");
+    router.push("/book");
   } catch (e) {
     error.value =
       (e && e.data && e.data.message) || e.message || "Login failed";

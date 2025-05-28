@@ -1,5 +1,7 @@
 <template>
-  <UApp>
-    <NuxtPage />
-  </UApp>
+  <div>
+      <router-view />
+  </div>
 </template>
+
+

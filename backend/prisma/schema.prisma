@@ -38,7 +38,8 @@ model Book {
   photo           String?         
   detail          String?         
   page            Int?            
-  price           Float?          
+  price           Float?      
+  deleted         Boolean         @default(false)    
   categories      BookCategory[]
   listBooks       ListBook[]
 }
