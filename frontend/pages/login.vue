@@ -112,7 +112,13 @@ async function onSubmit() {
       baseURL: "http://localhost:3000",
       body: { email: email.value, password: password.value },
     });
-    const token = res.data.token;
+    +   // ดูโครงสร้างที่จะได้กลับมาจาก API
+   console.log("Login response:", res);
+
+   const token = res.token || res.data?.token;
+   if (!token) {
+     throw new Error("No token in response");
+   }
     localStorage.setItem("token", token);
     router.push("/user");
   } catch (e) {

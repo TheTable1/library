@@ -1,84 +1,183 @@
 <template>
-  <div class="flex min-h-screen bg-gray-100">
-    <!-- Sidebar -->
-    <aside class="w-64 bg-[#1f2937] text-gray-300">
-      <NavBar />
-    </aside>
+  <div class="flex min-h-screen">
+    <!-- Sidebar Component -->
+    <div>
+      <AppSidebar />
+    </div>
 
-    <!-- Main content -->
-    <main class="flex-1 p-10">
-      <div class="max-w-4xl mx-auto bg-white shadow rounded-lg p-6">
-        <h1 class="text-2xl font-bold mb-6 text-gray-800">User List</h1>
-  
-        <div v-if="loading" class="text-center py-10">
-          Loading users…
+    <!-- Content -->
+    <main class="flex-1 bg-gray-50 p-6 transition-all duration-300">
+      <div class="max-w-6xl mx-auto">
+        <div class="bg-white shadow-sm rounded-lg p-6">
+          <div class="mb-6">
+            <h1 class="text-3xl font-bold text-gray-900">User Management</h1>
+            <p class="text-gray-600 mt-2">Manage and view all users in the system</p>
+          </div>
+
+          <!-- Loading State -->
+          <div v-if="loading" class="flex items-center justify-center py-12">
+            <div class="flex items-center space-x-2 text-gray-600">
+              <UIcon name="i-lucide-loader-2" class="animate-spin" />
+              <span>Loading users...</span>
+            </div>
+          </div>
+
+          <!-- Error State -->
+          <div v-else-if="error" class="bg-red-50 border border-red-200 rounded-lg p-4">
+            <div class="flex items-center space-x-2 text-red-700">
+              <UIcon name="i-lucide-alert-circle" />
+              <span>{{ error }}</span>
+            </div>
+          </div>
+
+          <!-- Users Table -->
+          <div v-else class="overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      No.
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      ID
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Name
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Email
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Role
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                  <tr v-for="(user, index) in users" :key="user.id">
+                    <!-- ใส่เลขลำดับ -->
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {{ index + 1 }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {{ user.id }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="flex items-center">
+                        <div class="flex-shrink-0 h-8 w-8">
+                          <div class="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center">
+                            <UIcon name="i-lucide-user" class="text-gray-600 text-sm" />
+                          </div>
+                        </div>
+                        <div class="ml-3">
+                          <div class="text-sm font-medium text-gray-900">
+                            {{ user.firstName }} {{ user.lastName }}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {{ user.email }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+                        :class="getRoleColor(user.role)">
+                        {{ user.role }}
+                      </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <div class="flex space-x-2">
+                        <UButton variant="ghost" class="text-green-500 " size="sm" icon="i-lucide-eye" @click="viewUser(user)" />
+                        <UButton variant="ghost" class="text-green-500" size="sm" icon="i-lucide-edit" @click="editUser(user)" />
+                        <UButton variant="ghost" class="text-green-500" size="sm" icon="i-lucide-trash" @click="deleteUser(user)" />
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Empty State -->
+            <div v-if="users.length === 0" class="text-center py-12">
+              <UIcon name="i-lucide-users" class="text-gray-400 text-4xl mb-4" />
+              <h3 class="text-lg font-medium text-gray-900 mb-2">No users found</h3>
+              <p class="text-gray-500">Get started by adding your first user.</p>
+            </div>
+          </div>
         </div>
-        <div v-else-if="error" class="text-red-600">
-          {{ error }}
-        </div>
-        <table v-else class="min-w-full table-auto">
-          <thead>
-            <tr class="bg-gray-200 text-gray-700">
-              <th class="px-4 py-2">ID</th>
-              <th class="px-4 py-2">First Name</th>
-              <th class="px-4 py-2">Last Name</th>
-              <th class="px-4 py-2">Email</th>
-              <th class="px-4 py-2">Role</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="user in users"
-              :key="user.id"
-              class="hover:bg-gray-50"
-            >
-              <td class="border px-4 py-2">{{ user.id }}</td>
-              <td class="border px-4 py-2">{{ user.firstName }}</td>
-              <td class="border px-4 py-2">{{ user.lastName }}</td>
-              <td class="border px-4 py-2">{{ user.email }}</td>
-              <td class="border px-4 py-2">{{ user.role }}</td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </main>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import NavBar from '~/components/NavBar.vue'
 
-// reactive state
-const users = ref([])
+interface User {
+  id: number
+  firstName: string
+  lastName: string
+  email: string
+  role: string
+}
+
+const users = ref<User[]>([])
 const loading = ref(false)
 const error = ref('')
 
-// helper: ดึง token
 function getToken() {
   return localStorage.getItem('token') || ''
 }
 
-// ดึงข้อมูล users
+function getRoleColor(role: string) {
+  const colors = {
+    admin: 'bg-green-100 text-green-800',
+    user: 'bg-blue-100 text-blue-800',
+  }
+  return colors[role.toLowerCase() as keyof typeof colors] || 'bg-gray-100 text-gray-800'
+}
+
 async function fetchUsers() {
   loading.value = true
   error.value = ''
   try {
-    const token = getToken()
-    const res = await $fetch('/users', {
+    const res = await $fetch<{ data: User[] }>('/users', {
       baseURL: 'http://localhost:3000',
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
+      headers: { Authorization: `Bearer ${getToken()}` }
     })
     users.value = res.data
-  } catch (e) {
+  } catch (e: any) {
     error.value = e.data?.message || e.message || 'Failed to load users'
   } finally {
     loading.value = false
   }
 }
 
-// เมื่อ component mount ให้ fetch
+function viewUser(user: User) {
+  window.location.href = `/users/${user.id}`
+}
+
+function editUser(user: User) { 
+  window.location.href = `/users/${user.id}/edit`
+}
+
+async function deleteUser(user: User) {
+  if (confirm(`Are you sure you want to delete ${user.firstName} ${user.lastName}?`)) {
+    try {
+      await $fetch(`/users/${user.id}`, {
+        method: 'DELETE',
+        baseURL: 'http://localhost:3000',
+        headers: { Authorization: `Bearer ${getToken()}` }
+      })
+      await fetchUsers()
+    } catch (e: any) {
+      error.value = e.data?.message || e.message || 'Failed to delete user'
+    }
+  }
+}
+
 onMounted(fetchUsers)
 </script>

@@ -18,6 +18,8 @@ const login = {
       const user = await userService.validateUser(email, password);
       const token = signToken({
         id: user.id,
+        fName: user.fName,
+        lName: user.lName,
         email: user.email,
         role: user.role,
       });
