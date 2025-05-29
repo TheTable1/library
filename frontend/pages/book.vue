@@ -14,12 +14,11 @@
                 </p>
             </div>
 
-            <!-- Loading / Error ตามเดิม… -->
-
             <!-- Grid: 5 columns แน่นอน -->
             <div v-if="books.length > 0" class="w-full grid grid-cols-5 gap-2">
-                <div v-for="book in books" :key="book.id"
-                    class="bg-white rounded-md shadow-sm hover:shadow-md transition duration-200 overflow-hidden border border-gray-200">
+                <router-link v-for="book in books" :key="book.id" :to="`/books/${book.id}`"
+                    class="block bg-white rounded-md shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-gray-200 group">
+
                     <!-- ภาพหนังสือ -->
                     <div
                         class="aspect-[2/3] bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center relative">
@@ -40,7 +39,7 @@
                     <!-- ข้อมูลหนังสือ -->
                     <div class="p-2">
                         <h3 class="font-medium text-gray-900 text-sm line-clamp-1 mb-1" :title="book.name">{{ book.name
-                            }}</h3>
+                        }}</h3>
                         <p class="text-xs text-gray-500 line-clamp-1 mb-1" :title="book.author">{{ book.author }}</p>
                         <div class="flex flex-wrap gap-1 mb-1">
                             <span v-for="cat in book.categories" :key="cat.id"
@@ -53,7 +52,7 @@
                             </span>
                         </div>
                     </div>
-                </div>
+                </router-link>
             </div>
 
             <!-- Empty State -->

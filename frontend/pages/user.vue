@@ -153,7 +153,3 @@ async function deleteUser(user) {
 
 onMounted(fetchUsers)
 </script>
-
-<style>
-/* ถ้าต้องการปรับ CSS เพิ่มเติม ให้ใส่ตรงนี้ */
-</style>

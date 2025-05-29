@@ -154,6 +154,26 @@
                   <span v-show="!isCollapsed" class="transition-opacity duration-200">User Management</span>
                 </a>
               </li>
+              <!-- Book Management -->
+              <li>
+                <a
+                  href="/manageBook"
+                  :class="[
+                    'flex items-center py-2.5 text-sm font-medium rounded-lg transition-colors duration-200',
+                    isCollapsed ? 'justify-center' : 'pl-3 pr-2',
+                    isActive('/manageBook').value
+                      ? 'bg-blue-600 text-white'
+                      : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                  ]"
+                >
+                  <UIcon
+                    name="i-lucide-users"
+                    class="text-lg flex-shrink-0"
+                    :class="isCollapsed ? '' : 'mr-3'"
+                  />
+                  <span v-show="!isCollapsed" class="transition-opacity duration-200">Book Management</span>
+                </a>
+              </li>
               <!-- Analytics -->
               <li>
                 <a
@@ -224,6 +244,3 @@ const isActive = (prefix) => {
 }
 </script>
 
-<style>
-/* ปรับแต่งเพิ่มเติมได้ที่นี่ */
-</style>
