@@ -72,9 +72,9 @@
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div class="flex space-x-2">
-                      <UButton variant="ghost" size="sm" icon="i-lucide-eye" @click="viewUser(user)" />
-                      <UButton variant="ghost" size="sm" icon="i-lucide-edit" @click="openEdit(user)" />
-                      <UButton variant="ghost" size="sm" icon="i-lucide-trash" @click="deleteUser(user)" />
+                      <UButton variant="ghost" class="cp" size="sm" icon="i-lucide-eye" @click="viewUser(user)" />
+                      <UButton variant="ghost" class="cp" size="sm" icon="i-lucide-edit" @click="openEdit(user)" />
+                      <UButton variant="ghost" class="cp" size="sm" icon="i-lucide-trash" @click="deleteUser(user)" />
                     </div>
                   </td>
                 </tr>
