@@ -45,7 +45,7 @@
 
                                 <!-- User Info -->
                                 <div class="flex-1 text-center lg:text-left">
-                                    <h1 class="text-4xl lg:text-5xl font-bold text-white mb-3 drop-shadow-lg">
+                                    <h1 class="text-3xl font-bold text-white mb-3 drop-shadow-lg">
                                         {{ user.firstName }} {{ user.lastName }}
                                     </h1>
                                     <p class="text-white/90 text-lg mb-4 font-medium">{{ user.email }}</p>

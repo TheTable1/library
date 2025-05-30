@@ -1,3 +1,4 @@
+<!-- pages/books.vue -->
 <template>
   <div class="flex min-h-screen">
     <!-- Sidebar -->
@@ -5,11 +6,20 @@
 
     <!-- Content -->
     <main class="flex-1 bg-gray-50 p-6">
-      <div class="bg-white shadow-sm rounded-lg p-6">
-        <!-- Header -->
-        <div class="mb-6">
-          <h1 class="text-3xl font-bold text-gray-900">Book Management</h1>
-          <p class="text-gray-600 mt-2">Browse and manage all books in the library</p>
+      <div class="w-full bg-white shadow-sm rounded-lg p-6">
+        <!-- Header + Search -->
+        <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 class="text-3xl font-bold text-gray-900">Book Management</h1>
+            <p class="text-gray-600 mt-1">Browse and manage all books in the library</p>
+          </div>
+          <div class="mt-4 sm:mt-0">
+            <div class="relative mt-4">
+              <UIcon name="i-lucide-search" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-darkblue" />
+              <input v-model="searchQuery" type="text" placeholder="Search by title..."
+                class="pl-10 pr-4 py-2 border rounded-lg w-full sm:w-64 focus:outline-none focus:ring-2 focus:ring-indigo-200 border-gray-300 text-darkblue" />
+            </div>
+          </div>
         </div>
 
         <!-- Loading -->
@@ -33,19 +43,43 @@
           <table class="table-fixed w-full divide-y divide-gray-200 bg-white shadow rounded-lg">
             <thead class="bg-gray-50">
               <tr>
-                <th class="w-12 px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">No.</th>
-                <th class="w-16 px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Author</th>
-                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">ISBN</th>
-                <th class="w-20 px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
-                <th class="w-20 px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Avail.</th>
-                <th class="w-24 px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Price</th>
-                <th class="w-32 px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                <th class="w-12 px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                  No.
+                </th>
+                <th class="w-15 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase cursor-pointer"
+                  @click="sort('id')">
+                  ID
+                  <UIcon v-if="sortKey === 'id'" :name="sortAsc ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
+                    class="inline-block ml-1 text-xs" />
+                </th>
+                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase cursor-pointer"
+                  @click="sort('name')">
+                  Title
+                  <UIcon v-if="sortKey === 'name'" :name="sortAsc ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
+                    class="inline-block ml-1 text-xs" />
+                </th>
+                <th class="w-40 px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase cursor-pointer"
+                  @click="sort('author')">
+                  Author
+                  <UIcon v-if="sortKey === 'author'" :name="sortAsc ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
+                    class="inline-block ml-1 text-xs" />
+                </th>
+                <th class="w-35 px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">ISBN</th>
+                <th class="w-15 px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
+                <th class="w-15 px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Avail.</th>
+                <th class="w-24 px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase cursor-pointer"
+                  @click="sort('price')">
+                  Price
+                  <UIcon v-if="sortKey === 'price'" :name="sortAsc ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
+                    class="inline-block ml-1 text-xs" />
+                </th>
+                <th class="w-32 px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-              <tr v-for="(book, i) in books" :key="book.id">
+              <tr v-for="(book, i) in displayedBooks" :key="book.id">
                 <td class="px-3 py-2 text-sm text-gray-900">{{ i + 1 }}</td>
                 <td class="px-3 py-2 text-sm text-gray-900">{{ book.id }}</td>
                 <td class="px-3 py-2 text-sm text-gray-900">{{ book.name }}</td>
@@ -66,10 +100,10 @@
           </table>
 
           <!-- Empty State -->
-          <div v-if="books.length === 0" class="text-center py-12">
+          <div v-if="displayedBooks.length === 0" class="text-center py-12">
             <UIcon name="i-lucide-book" class="text-gray-400 text-4xl mb-4" />
             <h3 class="text-lg font-medium text-gray-900 mb-2">No books found</h3>
-            <p class="text-gray-500">Get started by adding your first book.</p>
+            <p class="text-gray-500">Try adjusting your search or sort.</p>
           </div>
         </div>
       </div>
@@ -78,15 +112,12 @@
     <!-- Edit Book Modal -->
     <div v-if="showEdit" class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden">
-        <!-- Modal Header -->
         <div class="bg-darkblue text-white px-6 py-4 flex justify-between items-center">
           <h3 class="text-xl font-semibold">Edit Book</h3>
           <button @click="closeEdit" class="text-white text-2xl cp">
             <UIcon name="i-lucide-x" />
           </button>
         </div>
-
-        <!-- Modal Body: Form -->
         <div class="p-6 text-black">
           <form @submit.prevent="submitEdit" class="space-y-5">
             <div class="grid grid-cols-2 gap-4 ">
@@ -211,17 +242,22 @@
         </div>
       </div>
     </div>
+    <!-- End Edit Modal -->
   </div>
 </template>
 
 <script setup>
 import AppSidebar from '@/components/AppSidebar.vue'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 const books = ref([])
 const loading = ref(false)
 const error = ref('')
+const searchQuery = ref('')
+const sortKey = ref('')
+const sortAsc = ref(true)
+
 const showEdit = ref(false)
 const editForm = ref({
   id: null,
@@ -276,19 +312,16 @@ function openEdit(b) {
   showEdit.value = true
 }
 
-
 function closeEdit() {
   showEdit.value = false
 }
 
 async function submitEdit() {
   const { id, ...all } = editForm.value
-  // กรองเอาเฉพาะค่าไม่เป็น null
   const payload = {}
   Object.entries(all).forEach(([k, v]) => {
     if (v !== null) payload[k] = v
   })
-
   try {
     await $fetch(`/books/${id}`, {
       method: 'PUT',
@@ -302,21 +335,54 @@ async function submitEdit() {
     await fetchBooks()
     closeEdit()
   } catch (e) {
-    console.error('Update failed:', e)
     error.value = e.data?.message || e.message
   }
 }
 
-
 async function deleteBook(b) {
-  if (!confirm(`Are you sure you want to delete "${b.name}"?`)) return
-  await $fetch(`/books/${b.id}`, {
-    method: 'DELETE',
-    baseURL: 'http://localhost:3000',
-    headers: { Authorization: `Bearer ${getToken()}` }
-  })
-  await fetchBooks()
+  if (!confirm(`Delete "${b.name}"?`)) return
+  try {
+    await $fetch(`/books/${b.id}`, {
+      method: 'DELETE',
+      baseURL: 'http://localhost:3000',
+      headers: { Authorization: `Bearer ${getToken()}` }
+    })
+    await fetchBooks()
+  } catch (e) {
+    error.value = e.data?.message || e.message
+  }
 }
+
+// sort by column
+function sort(key) {
+  if (sortKey.value === key) {
+    sortAsc.value = !sortAsc.value
+  } else {
+    sortKey.value = key
+    sortAsc.value = true
+  }
+}
+
+// computed list with search + sort
+const displayedBooks = computed(() => {
+  let list = books.value.slice()
+  if (searchQuery.value) {
+    const q = searchQuery.value.toLowerCase()
+    list = list.filter(b => b.name.toLowerCase().includes(q))
+  }
+  if (sortKey.value) {
+    list.sort((a, b) => {
+      let va = a[sortKey.value] ?? ''
+      let vb = b[sortKey.value] ?? ''
+      if (typeof va === 'string') va = va.toLowerCase()
+      if (typeof vb === 'string') vb = vb.toLowerCase()
+      if (va < vb) return sortAsc.value ? -1 : 1
+      if (va > vb) return sortAsc.value ? 1 : -1
+      return 0
+    })
+  }
+  return list
+})
 
 onMounted(fetchBooks)
 </script>
