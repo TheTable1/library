@@ -14,6 +14,10 @@
   const router = useRouter()
   
   function goBack() {
+    if (document.referrer) {
+    window.location.href = document.referrer
+  } else {
     router.back()
+  }
   }
   </script>

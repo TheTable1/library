@@ -69,8 +69,8 @@ const updateUser = async (id, data) => {
   });
   return {
     id: updated.uId,
-    firstName: updated.fName,
-    lastName: updated.lName,
+    fName: updated.fName,
+    lName: updated.lName,
     email: updated.email,
     role: updated.role,
     memberSince: formatDateTime(updated.memberSince),

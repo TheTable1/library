@@ -5,7 +5,6 @@
 
         <!-- Content -->
         <main class="flex-1 p-6 pt-3">
-            <BackButton>back</BackButton>
             <!-- Loading State -->
             <div v-if="loading" class="flex items-center justify-center h-full ">
                 <div class="flex flex-col items-center space-y-4 text-gray-600">
@@ -41,8 +40,8 @@
                     <div class="relative bg-darkblue p-8 text-white">
                         <div class="absolute inset-0 bg-black opacity-10"></div>
                         <div class="relative z-10">
-                            <h1 class="text-4xl font-bold mb-2">{{ book.name }}</h1>
-                            <p class="text-xl opacity-90">by {{ book.author }}</p>
+                            <h1 class="text-2xl font-bold mb-2">{{ book.name }}</h1>
+                            <p class="text-lg opacity-90">by {{ book.author }}</p>
                         </div>
                     </div>
 

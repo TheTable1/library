@@ -59,7 +59,7 @@
                     'flex items-center py-2.5 text-sm font-medium rounded-lg transition-colors duration-200',
                     isCollapsed ? 'justify-center' : 'pl-3 pr-2',
                     isActive('/book').value
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-white text-darkblue'
                       : 'text-gray-300 hover:bg-gray-800 hover:text-white'
                   ]"
                 >
@@ -142,7 +142,7 @@
                     'flex items-center py-2.5 text-sm font-medium rounded-lg transition-colors duration-200',
                     isCollapsed ? 'justify-center' : 'pl-3 pr-2',
                     isActive('/user').value
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-white text-darkblue'
                       : 'text-gray-300 hover:bg-gray-800 hover:text-white'
                   ]"
                 >
@@ -162,7 +162,7 @@
                     'flex items-center py-2.5 text-sm font-medium rounded-lg transition-colors duration-200',
                     isCollapsed ? 'justify-center' : 'pl-3 pr-2',
                     isActive('/manageBook').value
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-white text-darkblue'
                       : 'text-gray-300 hover:bg-gray-800 hover:text-white'
                   ]"
                 >
