@@ -66,45 +66,25 @@ const getBookById = async (id) => {
   };
 };
 
-
 const createBook = async (data) => {
-  const {
-    name,
-    author,
-    isbn,
-    totalCopies,
-    availableCopies,
-    detail,
-    page,
-    price,
-    categories,
-  } = data;
+  const { categoryIds = [], ...rest } = data;
 
-  return prisma.book.create({
+  const b = await prisma.book.create({
     data: {
-      name,
-      author,
-      isbn,
-      totalCopies,
-      availableCopies,
-      detail,
-      page,
-      price,
+      ...rest,
       categories: {
-        create: categories.map((catId) => ({ categoryId: catId })),
+        create: categoryIds.map((cid) => ({
+          category: { connect: { id: cid } },
+        })),
       },
     },
     include: {
       categories: {
-        select: { category: { select: { name: true } } },
+        include: { category: true },
       },
     },
   });
-};
 
-
-const updateBook = async (id, data) => {
-  const b = await prisma.book.update({ where: { id: Number(id) }, data });
   return {
     id: b.id,
     name: b.name,
@@ -116,8 +96,63 @@ const updateBook = async (id, data) => {
     detail: b.detail,
     page: b.page,
     price: b.price,
+    categories: b.categories.map((bc) => ({
+      id: bc.id,
+      categoryId: bc.categoryId,
+      name: bc.category.name,
+    })),
   };
 };
+
+const updateBook = async (id, data) => {
+  const { categoryIds, photo, ...rest } = data;
+
+  const updatePayload = {
+    ...rest,
+    photo: photo ?? null,
+    ...(Array.isArray(categoryIds)
+      ? {
+          categories: {
+            deleteMany: {},
+            create: categoryIds.map((cid) => ({
+              category: { connect: { id: Number(cid) } }
+            }))
+          }
+        }
+      : {})
+  };
+
+  const b = await prisma.book.update({
+    where: { id: Number(id) },
+    data: updatePayload,
+    include: {
+      categories: {
+        include: {
+          category: true
+        }
+      }
+    }
+  });
+
+  return {
+    id: b.id,
+    name: b.name,
+    author: b.author,
+    isbn: b.isbn,
+    totalCopies: b.totalCopies,
+    availableCopies: b.availableCopies,
+    photo: b.photo,
+    detail: b.detail,
+    page: b.page,
+    price: b.price,
+    categories: b.categories.map((join) => ({
+      id: join.category.id,
+      name: join.category.name,
+      detail: join.category.detail
+    }))
+  };
+};
+
 
 const deleteBook = async (id) => {
   const bookId = Number(id);
