@@ -1,7 +1,7 @@
 // /composables/useUser.js
 import { ref, computed } from "vue";
 
-const _user = ref({ fullName: "", email: "", role: "" });
+const _user = ref({ id: "",fullName: "", email: "", role: "" });
 let _initialized = false;
 
 function parseJwt(token) {
@@ -34,11 +34,13 @@ export function useUser() {
       _user.value.fullName =
         first || last ? `${first} ${last}`.trim() : data.name || "";
       _user.value.email = data.email ;
+      _user.value.id = data.id ;
       // fallback อ่าน role จากทุกที่
       _user.value.role = data.role ;
     }
   }
   return {
+    id: computed(()=> _user.value.id),
     fullName: computed(() => _user.value.fullName),
     email: computed(() => _user.value.email),
     role: computed(() => _user.value.role),

@@ -87,10 +87,12 @@
 <script setup>
 import AppSidebar from '@/components/AppSidebar.vue'
 import { ref, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const books = ref([])
 const loading = ref(false)
 const error = ref('')
+const router  = useRouter()
 
 function getToken() {
   return localStorage.getItem('token') || ''
@@ -112,6 +114,10 @@ async function fetchBooks() {
   }
 }
 
+function viewBook(b) {
+  router.push(`/books/${b.id}`)
+}
+
 function editBook(user) {
    window.location.href = `/books/${books.id}/edit`
  }
@@ -130,15 +136,8 @@ async function deleteBook(book) {
   }
 }
 
+
+
 onMounted(fetchBooks)
 </script>
 
-<style scoped>
-/* ปรับบรรทัด จำกัดชื่อให้สั้น */
-.line-clamp-1 {
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-</style>

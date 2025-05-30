@@ -164,7 +164,6 @@
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import AppSidebar from '@/components/AppSidebar.vue'
-import BackButton from '../../components/backButton.vue'
 
 const route = useRoute()
 const bookId = route.params.id
@@ -191,6 +190,8 @@ async function fetchBook() {
         loading.value = false
     }
 }
+
+
 
 onMounted(fetchBook)
 </script>

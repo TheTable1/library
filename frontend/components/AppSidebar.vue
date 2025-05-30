@@ -8,7 +8,7 @@
         isCollapsed ? 'w-20' : 'w-64'
       ]"
     >
-      <div class="h-full bg-gray-900 text-white w-full flex flex-col">
+      <div class="h-full flex flex-col">
         <!-- Toggle Button -->
         <div class="absolute right-0 top-6 z-30">
           <button
@@ -46,7 +46,7 @@
           <div class="mb-6">
             <h2
               v-show="!isCollapsed"
-              class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3 transition-opacity duration-200"
+              class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3"
             >
               Main Menu
             </h2>
@@ -68,7 +68,7 @@
                     class="text-lg flex-shrink-0"
                     :class="isCollapsed ? '' : 'mr-3'"
                   />
-                  <span v-show="!isCollapsed" class="transition-opacity duration-200">Book</span>
+                  <span v-show="!isCollapsed">Book</span>
                 </a>
               </li>
 
@@ -88,7 +88,7 @@
                         class="text-lg flex-shrink-0"
                         :class="isCollapsed ? '' : 'mr-3'"
                       />
-                      <span v-show="!isCollapsed" class="transition-opacity duration-200">Settings</span>
+                      <span v-show="!isCollapsed">Settings</span>
                     </div>
                     <UIcon
                       v-show="!isCollapsed"
@@ -125,16 +125,15 @@
             </ul>
           </div>
 
-          <!-- Admin Section (เฉพาะ role เป็น admin) -->
+          <!-- Admin Section -->
           <div v-if="role === 'admin'" class="mb-6">
             <h2
               v-show="!isCollapsed"
-              class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3 transition-opacity duration-200"
+              class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3"
             >
               Admin
             </h2>
             <ul class="space-y-1">
-              <!-- User Management -->
               <li>
                 <a
                   href="/user"
@@ -151,10 +150,9 @@
                     class="text-lg flex-shrink-0"
                     :class="isCollapsed ? '' : 'mr-3'"
                   />
-                  <span v-show="!isCollapsed" class="transition-opacity duration-200">User Management</span>
+                  <span v-show="!isCollapsed">User Management</span>
                 </a>
               </li>
-              <!-- Book Management -->
               <li>
                 <a
                   href="/manageBook"
@@ -167,14 +165,13 @@
                   ]"
                 >
                   <UIcon
-                    name="i-lucide-users"
+                    name="i-lucide-book-open"
                     class="text-lg flex-shrink-0"
                     :class="isCollapsed ? '' : 'mr-3'"
                   />
-                  <span v-show="!isCollapsed" class="transition-opacity duration-200">Book Management</span>
+                  <span v-show="!isCollapsed">Book Management</span>
                 </a>
               </li>
-              <!-- Analytics -->
               <li>
                 <a
                   href="/analytics"
@@ -191,7 +188,7 @@
                     class="text-lg flex-shrink-0"
                     :class="isCollapsed ? '' : 'mr-3'"
                   />
-                  <span v-show="!isCollapsed" class="transition-opacity duration-200">Analytics</span>
+                  <span v-show="!isCollapsed">Analytics</span>
                 </a>
               </li>
             </ul>
@@ -199,7 +196,10 @@
         </nav>
 
         <!-- Bottom Section (User Profile) -->
-        <div class="p-4 border-t border-gray-700">
+        <div
+          @click="goProfile"
+          class="p-4 border-t border-gray-700 cursor-pointer"
+        >
           <div
             :class="[
               'transition-all duration-200',
@@ -222,12 +222,13 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useUser } from '@/composables/useUser'
-import { useRoute } from 'vue-router'
 
-const { fullName, email, role } = useUser()
-const route = useRoute()
-const isCollapsed = ref(false)
+const router      = useRouter()
+const { id, fullName, email, role } = useUser()
+
+const isCollapsed  = ref(false)
 const showSettings = ref(false)
 
 function toggleSidebar() {
@@ -237,10 +238,12 @@ function toggleSettings() {
   showSettings.value = !showSettings.value
 }
 
-const activePath = computed(() => route.path)
-
-const isActive = (prefix) => {
-  return computed(() => activePath.value.startsWith(prefix))
+function goProfile() {
+  if (id.value) {
+    router.push(`/users/${id.value}`)
+  }
 }
-</script>
 
+const activePath = computed(() => router.currentRoute.value.path)
+const isActive   = (prefix) => computed(() => activePath.value.startsWith(prefix))
+</script>
