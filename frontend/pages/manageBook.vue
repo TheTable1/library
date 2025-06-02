@@ -50,7 +50,7 @@
               <tr>
                 <th class="w-12 px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">No.</th>
                 <th @click="sort('id')"
-                  class="w-15 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase cursor-pointer">
+                  class="w-15 px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase cursor-pointer">
                   ID
                   <UIcon v-if="sortKey === 'id'" :name="sortAsc ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
                     class="inline-block ml-1 text-xs" />
@@ -130,34 +130,34 @@
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Title</label>
-                <input v-model="editForm.name" type="text" class="w-full border rounded-lg px-4 py-2" />
+                <input v-model="editForm.name" type="text" class="w-full border rounded-lg px-4 py-2" required/>
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Author</label>
-                <input v-model="editForm.author" type="text" class="w-full border rounded-lg px-4 py-2" />
+                <input v-model="editForm.author" type="text" class="w-full border rounded-lg px-4 py-2 " required/>
               </div>
             </div>
 
             <!-- ISBN -->
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">ISBN</label>
-              <input v-model="editForm.isbn" type="text" class="w-full border rounded-lg px-4 py-2" />
+              <input v-model="editForm.isbn" type="text" class="w-full border rounded-lg px-4 py-2" required/>
             </div>
 
             <!-- Copies / Page / Price -->
             <div class="grid grid-cols-3 gap-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Total Copies</label>
-                <input v-model.number="editForm.totalCopies" type="number" class="w-full border rounded-lg px-4 py-2" />
+                <input v-model.number="editForm.totalCopies" type="number" class="w-full border rounded-lg px-4 py-2" required/>
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Available</label>
                 <input v-model.number="editForm.availableCopies" type="number"
-                  class="w-full border rounded-lg px-4 py-2" />
+                  class="w-full border rounded-lg px-4 py-2" required/>
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Pages</label>
-                <input v-model.number="editForm.page" type="number" class="w-full border rounded-lg px-4 py-2" />
+                <input v-model.number="editForm.page" type="number" class="w-full border rounded-lg px-4 py-2" required/>
               </div>
             </div>
 
@@ -165,20 +165,20 @@
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">Price</label>
               <input v-model.number="editForm.price" type="number" step="0.01"
-                class="w-full border rounded-lg px-4 py-2" />
+                class="w-full border rounded-lg px-4 py-2" required/>
             </div>
 
             <!-- Photo URL -->
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">Photo URL</label>
-              <input v-model="editForm.photo" type="text" class="w-full border rounded-lg px-4 py-2" />
+              <input v-model="editForm.photo" type="text" class="w-full border rounded-lg px-4 py-2" required/>
             </div>
 
             <!-- Description -->
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
               <textarea v-model="editForm.detail" rows="3"
-                class="w-full border rounded-lg px-4 py-2 resize-none"></textarea>
+                class="w-full border rounded-lg px-4 py-2 resize-none" required></textarea>
             </div>
 
             <!-- Categories -->
@@ -187,7 +187,7 @@
               <div class="grid grid-cols-2 gap-2">
                 <label v-for="cat in allCategories" :key="cat.id"
                   class="inline-flex items-center px-3 py-1 border rounded-lg cursor-pointer">
-                  <input type="checkbox" :value="cat.id" v-model="editForm.categoryIds" class="mr-2" />
+                  <input type="checkbox" :value="cat.id" v-model="editForm.categoryIds" class="mr-2"/>
                   {{ cat.name }}
                 </label>
               </div>
