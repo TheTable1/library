@@ -1,3 +1,4 @@
+<!-- pages/users/[id].vue -->
 <template>
     <div class="flex min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
         <AppSidebar />
@@ -226,7 +227,7 @@ async function fetchUser() {
     loading.value = true
     error.value = ''
     try {
-        const res = await $fetch(`/users/${userId}`, {
+        const res = await $fetch(`/users/me`, {
             baseURL: 'http://localhost:3000',
             headers: { Authorization: `Bearer ${getToken()}` }
         })

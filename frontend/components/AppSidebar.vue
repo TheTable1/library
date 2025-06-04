@@ -161,7 +161,7 @@ function toggleSettings() {
 
 function goProfile() {
   if (id.value) {
-    router.push(`/users/${id.value}`)
+    router.push(`/profile`)
   }
 }
 

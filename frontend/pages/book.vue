@@ -13,10 +13,20 @@
                     Browse and manage all books in the library
                 </p>
             </div>
+            <div class="mt-2 mb-5 sm:mt-0">
+                <div class="flex justify-center">
+                    <div class="w-70 relative mt-4">
+                        <UIcon name="i-lucide-search"
+                            class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <input v-model="searchQuery" type="text" placeholder="Search by name..."
+                            class="pl-10 pr-4 py-2 border rounded-lg w-full sm:w-64 focus:outline-none focus:ring-2 focus:ring-indigo-200 text-darkblue" />
+                    </div>
+                </div>
+            </div>
 
             <!-- Grid: 5 columns แน่นอน -->
-            <div v-if="books.length > 0" class="w-full grid grid-cols-5 gap-2">
-                <router-link v-for="book in books" :key="book.id" :to="`/books/${book.id}`"
+            <div v-if="displayedBooks.length > 0" class="w-full grid grid-cols-5 gap-2">
+                <router-link v-for="book in displayedBooks" :key="book.id" :to="`/books/${book.id}`"
                     class="block bg-white rounded-md shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden border border-gray-200 group">
 
                     <!-- ภาพหนังสือ -->
@@ -72,6 +82,7 @@ import AppSidebar from '@/components/AppSidebar.vue'
 const books = ref([])
 const loading = ref(false)
 const error = ref('')
+const searchQuery = ref('')
 
 function getToken() {
     return localStorage.getItem('token') || ''
@@ -92,6 +103,18 @@ async function fetchBooks() {
         loading.value = false
     }
 }
+
+const displayedBooks = computed(() => {
+  let filtered = books.value
+  if (searchQuery.value) {
+    const q = searchQuery.value.toLowerCase()
+    filtered = filtered.filter(book =>
+      book.name.toLowerCase().includes(q)
+    )
+  }
+
+  return filtered
+})
 
 onMounted(fetchBooks)
 </script>
