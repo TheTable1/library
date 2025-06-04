@@ -33,7 +33,7 @@ const getAllUsers = {
 const getMe = {
   description: "Get logged in user profile",
   tags: ["api", "users"],
-  auth: { strategy: "jwt" }, // ต้อง login
+  auth: { strategy: "jwt" }, 
   handler: async (request, h) => {
     try {
       const { id } = request.auth.credentials;
@@ -50,6 +50,10 @@ const getMe = {
 const getUserById = {
   description: "Get user by ID",
   tags: ["api", "users"],
+  auth: {
+    strategy: "jwt",
+    scope: ["admin"],
+  },
   validate: {
     params: validateZod(idParamSchema),
   },

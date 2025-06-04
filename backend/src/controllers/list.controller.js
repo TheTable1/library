@@ -52,6 +52,26 @@ const getListById = {
   },
 };
 
+const getMyList = {
+  description: 'Get list by id',
+  tags: ['api', 'lists'],
+  auth: {
+    strategy: 'jwt',
+  },
+  handler: async (request, h) => {
+    try {
+      const { id } = request.auth.credentials;
+      const list = await listService.getMyList(id);
+      return list
+        ? success(h, list, 'Fetched list successfully')
+        : notFound(h, 'List not found');
+    } catch (err) {
+      console.error(err);
+      return notFound(h, 'List not found');
+    }
+  },
+};
+
 const createList = {
   description: "Create a new borrowing list",
   tags: ["api", "lists"],
@@ -165,4 +185,5 @@ module.exports = {
   returnList,
   updateList,
   deleteList,
+  getMyList,
 };

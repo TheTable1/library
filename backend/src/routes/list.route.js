@@ -12,6 +12,11 @@ module.exports = [
         options: listController.getListById,
     },
     {
+        method: "GET",
+        path: "/my-lists",
+        options: listController.getMyList,
+    },
+    {
         method: "POST",
         path: "/lists",
         options: listController.createList,

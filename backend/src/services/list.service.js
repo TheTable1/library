@@ -13,6 +13,9 @@ const getAllLists = async () => {
         },
       },
     },
+    orderBy: {
+      id:"desc"
+    }
   });
 
   return lists.map((l) => ({
@@ -41,6 +44,22 @@ const getListById = async (id) => {
   const found = list.find((item) => item.id === Number(id));
   if (!found) throw new Error("List not found");
   return found;
+};
+
+const getMyList = async (userId) => {
+  return await prisma.list.findMany({
+    where: { userId },
+    include: {
+      listBooks: {
+        include: {
+          book: true, 
+        },
+      },
+    },
+    orderBy: {
+      loanDate: "desc", 
+    },
+  });
 };
 
 const createList = async (data, userId) => {
@@ -181,6 +200,7 @@ const deleteList = async (id) => {
 module.exports = {
   getAllLists,
   getListById,
+  getMyList,
   createList,
   returnList,
   updateList,
