@@ -23,7 +23,12 @@ module.exports = [
     },
     {
         method: "PUT",
-        path: "/return/{id}",
+        path: "/lists/{id}/return",
         options: listController.returnList,
     },
+    {
+        method: "DELETE",
+        path: "/lists/{id}",
+        options: listController.deleteList
+    }
 ];

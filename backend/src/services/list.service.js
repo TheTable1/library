@@ -144,6 +144,39 @@ const updateList = async (id, data) => {
 
   return getListById(listId);
 };
+
+//แบบไม่ nested
+const deleteList = async (id) => {
+  const listId = Number(id);
+  if (isNaN(listId)) throw new Error("Invalid list id");
+
+  const existing = await prisma.list.findUnique({
+    where: { id: listId },
+    include: { listBooks: true },
+  });
+  if (!existing) {
+    throw new Error("List not found");
+  }
+
+  await Promise.all(
+    existing.listBooks.map((lb) =>
+      prisma.book.update({
+        where: { id: lb.bookId },
+        data: { availableCopies: { increment: 1 } },
+      })
+    )
+  );
+
+  await prisma.listBook.deleteMany({
+    where: { listId: listId },
+  });
+
+  await prisma.list.delete({
+    where: { id: listId },
+  });
+
+  return { id: listId };
+};
   
 module.exports = {
   getAllLists,
@@ -151,4 +184,5 @@ module.exports = {
   createList,
   returnList,
   updateList,
+  deleteList,
 };

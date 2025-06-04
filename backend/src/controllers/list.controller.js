@@ -55,7 +55,9 @@ const getListById = {
 const createList = {
   description: "Create a new borrowing list",
   tags: ["api", "lists"],
-  auth: { strategy: "jwt", scope: ["admin"] },
+  auth: { 
+    strategy: "jwt", 
+    scope: ["admin"] },
   validate: {
     payload: validateZod(createListSchema),
   },
@@ -77,7 +79,10 @@ const createList = {
 const returnList = {
   description: "Return books for a list",
   tags: ["api", "lists"],
-  auth: "jwt",
+  auth: {
+    strategy: "jwt",
+    scope: ["admin"],
+  },
   validate: {
     params: validateZod(idParamSchema),
     payload: validateZod(returnListSchema),
@@ -100,10 +105,13 @@ const returnList = {
 const updateList = {
   description: "Update an existing list",
   tags: ["api", "lists"],
-  auth: "jwt",
+  auth: {
+    strategy: "jwt",
+    scope: ["admin"],
+  },
   validate: {
     params: validateZod(idParamSchema),
-    payload: validateZod(updateListSchema), // ← ใช้ schema ใหม่
+    payload: validateZod(updateListSchema), 
   },
   handler: async (request, h) => {
     try {
@@ -125,10 +133,36 @@ const updateList = {
   },
 };
 
+const deleteList = {
+  description: "Delete a loan list",
+  tags: ["api", "lists"],
+  auth: {
+    strategy: "jwt",
+    scope: ["admin"],
+  },
+  validate: {
+    params: validateZod(idParamSchema),
+  },
+  handler: async (request, h) => {
+    try {
+      const { id } = request.params;
+      await listService.deleteList(id);
+      return success(h, null, "List deleted successfully");
+    } catch (err) {
+      console.error(err);
+      if (err.message === "List not found") {
+        return notFound(h, err.message);
+      }
+      return error(h, err.message);
+    }
+  },
+};
+
 module.exports = {
   getAllLists,
   getListById,
   createList,
   returnList,
   updateList,
+  deleteList,
 };

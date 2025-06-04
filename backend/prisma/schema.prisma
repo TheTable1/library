@@ -64,7 +64,7 @@ model List {
   loanDate     DateTime
   dueDate      DateTime
   returnedDate DateTime?
-  fine         Float?
+  fine         Float?     @default(0)
   status       String
   user         User       @relation(fields: [userId], references: [id])
   userId       Int

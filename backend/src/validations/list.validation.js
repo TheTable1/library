@@ -14,9 +14,9 @@ const createListSchema = z.object({
 });
 
 const returnListSchema = z.object({
-  userId: z.number().int().positive(),
-  bookIds: z.array(z.number().int()).min(1),
-  dueDate: z.string().refine((d) => !isNaN(Date.parse(d)), "Invalid date"),
+  returnedDate: z
+    .string()
+    .refine((d) => !isNaN(Date.parse(d)), "Invalid returnedDate format"),
 });
 
 const idParamSchema = z.object({

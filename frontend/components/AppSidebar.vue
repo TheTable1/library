@@ -104,12 +104,12 @@
                       :class="showSettings ? 'rotate-180' : ''" />
                   </button>
                   <div v-show="showSettings && !isCollapsed" class="mt-1 ml-6 space-y-1">
-                    <a href="/management/borrow"
+                    <a href="/borrow"
                       class="flex items-center px-3 py-2 text-sm text-gray-400 rounded-lg hover:bg-gray-800 hover:text-white transition-colors duration-200">
                       <UIcon name="i-lucide-book-plus" class="mr-3 text-base" />
                       <span>Borrowing</span>
                     </a>
-                    <a href="/management/return"
+                    <a href="/return"
                       class="flex items-center px-3 py-2 text-sm text-gray-400 rounded-lg hover:bg-gray-800 hover:text-white transition-colors duration-200">
                       <UIcon name="i-lucide-book-up-2" class="mr-3 text-base" />
                       <span>Returning</span>

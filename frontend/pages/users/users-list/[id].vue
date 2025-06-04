@@ -63,7 +63,7 @@
                                     </div>
                                 </div> 
                                 <div>
-                                    <router-link :to="`/users/users-list/${user.id}`" class="px-3 py-2 bg-white/50 rounded-xl">List Detail</router-link>
+                                    <router-link :to="`/users/${user.id}`" class="px-3 py-2 bg-white/50 rounded-xl">User Detail</router-link>
                                 </div>
                             </div>
                         </div>
@@ -71,41 +71,6 @@
 
                     <!-- Information Grid -->
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <!-- Contact Information -->
-                        <div class="bg-white/70 backdrop-blur-md rounded-3xl border border-slate-200/50 p-8 transition-all duration-300 hover:bg-white/80 hover:border-slate-300/60 hover:shadow-lg">
-                            <div class="mb-8">
-                                <h2 class="text-lg font-medium text-slate-900 mb-2">Contact Information</h2>
-                                <div class="w-12 h-0.5 bg-gradient-to-r from-blue-500 to-transparent"></div>
-                            </div>
-                            
-                            <div class="space-y-8">
-                                <div class="group">
-                                    <div class="flex items-center space-x-4">
-                                        <div class="w-10 h-10 rounded-2xl flex items-center justify-center bg-blue-100 transition-colors duration-200">
-                                            <UIcon name="i-lucide-mail" class="text-slate-600 text-blue-600 transition-colors duration-200" />
-                                        </div>
-                                        <div class="flex-1">
-                                            <p class="text-xs font-medium text-slate-500 mb-1">Email</p>
-                                            <p class="text-slate-900 font-medium">{{ user.email }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="group">
-                                    <div class="flex items-center space-x-4">
-                                        <div class="w-10 h-10 rounded-2xl  flex items-center justify-center bg-emerald-100 transition-colors duration-200">
-                                            <UIcon name="i-lucide-phone" class="text-slate-600 text-emerald-600 transition-colors duration-200" />
-                                        </div>
-                                        <div class="flex-1">
-                                            <p class="text-xs font-medium text-slate-500 mb-1">Phone Number</p>
-                                            <p class="text-slate-900 font-medium">{{ user.phone || 'Not specified' }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Account Information -->
                         <div class="bg-white/70 backdrop-blur-md rounded-3xl border border-slate-200/50 p-8 transition-all duration-300 hover:bg-white/80 hover:border-slate-300/60 hover:shadow-lg">
                             <div class="mb-8">
                                 <h2 class="text-lg font-medium text-slate-900 mb-2">Account Information</h2>
@@ -135,27 +100,6 @@
                                             <p class="text-slate-900 font-medium">{{ getDaysAsMember(user.memberSince) }} days</p>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Address -->
-                    <div class="bg-white/70 backdrop-blur-md rounded-3xl border border-slate-200/50 p-8 transition-all duration-300 hover:bg-white/80 hover:border-slate-300/60 hover:shadow-lg">
-                        <div class="mb-8">
-                            <h2 class="text-lg font-medium text-slate-900 mb-2">Address</h2>
-                            <div class="w-12 h-0.5 bg-gradient-to-r from-emerald-500 to-transparent"></div>
-                        </div>
-                        
-                        <div class="group">
-                            <div class="flex items-start space-x-4">
-                                <div class="w-10 h-10 rounded-2xl  flex items-center justify-center bg-emerald-100 transition-colors duration-200 flex-shrink-0 mt-1">
-                                    <UIcon name="i-lucide-map-pin" class="text-slate-600 text-emerald-600 transition-colors duration-200" />
-                                </div>
-                                <div class="flex-1 pt-2">
-                                    <p class="text-slate-900 font-medium leading-relaxed">
-                                        {{ user.address || 'No address specified' }}
-                                    </p>
                                 </div>
                             </div>
                         </div>
