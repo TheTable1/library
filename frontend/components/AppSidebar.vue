@@ -91,6 +91,18 @@
                 </a>
               </li>
               <li>
+                <a href="/category" :class="[
+                  'flex items-center py-2.5 text-sm font-medium rounded-lg transition-colors duration-200',
+                  isCollapsed ? 'justify-center' : 'pl-3 pr-2',
+                  isActive('/category').value
+                    ? 'bg-white text-darkblue'
+                    : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                ]">
+                  <UIcon name="i-lucide-chart-column-stacked" class="text-lg flex-shrink-0" :class="isCollapsed ? '' : 'mr-3'" />
+                  <span v-show="!isCollapsed">Category </span>
+                </a>
+              </li>
+              <li>
                 <div class="relative">
                   <button @click="toggleSettings" :class="[
                     'w-full flex items-center py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 hover:bg-gray-800 text-gray-300 hover:text-white',
