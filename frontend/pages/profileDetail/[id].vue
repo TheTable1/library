@@ -67,10 +67,16 @@
                     </span>
                   </div>
                 </div>
-                <div>
+                <div class="flex">
                   <div @click="goBack"
-                    class="px-3 py-2 bg-white/50 rounded-xl text-sm font-medium text-slate-800 hover:bg-white/70 cp">
+                    class="px-3 py-2 bg-white/50 rounded-xl text-sm font-medium text-slate-800 hover:bg-white/70 cp mr-3">
                     User Details
+                  </div>
+                  <div>
+                    <button @click="handleLogOut"
+                      class="px-3 py-2 bg-white/50 rounded-xl text-sm font-medium text-slate-800 hover:bg-white/70 cp">
+                      Logout
+                    </button>
                   </div>
                 </div>
               </div>
@@ -103,8 +109,8 @@
                     <p class="text-sm text-slate-500 font-medium">
                     </p>
                     <span class="text-xs font-semibold px-2 py-1 rounded-full text-white" :class="list.status === 'returned'
-                        ? 'bg-green-500'
-                        : 'bg-yellow-500'
+                      ? 'bg-green-500'
+                      : 'bg-yellow-500'
                       ">
                       {{ list.status }}
                     </span>
@@ -192,7 +198,7 @@ async function fetchUser() {
   loadingUser.value = true;
   errorUser.value = "";
   try {
-    const res = await $fetch(`/users/${userId}`, {
+    const res = await $fetch(`/users/me`, {
       baseURL: "http://localhost:3000",
       headers: { Authorization: `Bearer ${getToken()}` },
     });
@@ -209,7 +215,7 @@ async function fetchLists() {
   loadingLists.value = true;
   errorLists.value = "";
   try {
-    const res = await $fetch(`/lists/user/${userId}`, {
+    const res = await $fetch("/my-lists", {
       baseURL: "http://localhost:3000",
       headers: { Authorization: `Bearer ${getToken()}` },
     });
@@ -242,6 +248,11 @@ function getRoleGradient(role) {
     gradients[role.toLowerCase()] ||
     "bg-gradient-to-r from-gray-500/20 to-slate-500/20 border-gray-300/50"
   );
+}
+
+function handleLogOut() {
+  localStorage.removeItem('token')
+  router.push('/login')
 }
 
 onMounted(() => {

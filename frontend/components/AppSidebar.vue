@@ -17,6 +17,7 @@
         </div>
 
         <!-- Logo/Brand Section -->
+        <router-link to="/login">
         <div class="p-6 border-b border-gray-700">
           <div :class="[
             'transition-all duration-200',
@@ -31,6 +32,7 @@
             </div>
           </div>
         </div>
+      </router-link>
 
         <!-- Navigation Menu -->
         <nav class="flex-1 px-4 py-6 space-y-2">

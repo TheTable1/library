@@ -72,6 +72,27 @@ const getMyList = {
   },
 };
 
+const getUserList = {
+  description: 'Get list by user id',
+  tags: ['api', 'lists'],
+  auth: {
+    strategy: 'jwt',
+    scope: ['admin']
+  },
+  handler: async (request, h) => {
+    try {
+      const id = request.params.id;
+      const list = await listService.getMyList(id);
+      return list
+        ? success(h, list, 'Fetched list successfully')
+        : notFound(h, 'List not found');
+    } catch (err) {
+      console.error(err);
+      return notFound(h, 'List not found');
+    }
+  },
+};
+
 const createList = {
   description: "Create a new borrowing list",
   tags: ["api", "lists"],
@@ -186,4 +207,5 @@ module.exports = {
   updateList,
   deleteList,
   getMyList,
+  getUserList,
 };

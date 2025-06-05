@@ -48,16 +48,16 @@ const getListById = async (id) => {
 
 const getMyList = async (userId) => {
   return await prisma.list.findMany({
-    where: { userId },
+    where: { userId: Number(userId) },
     include: {
       listBooks: {
         include: {
-          book: true, 
+          book: true,
         },
       },
     },
     orderBy: {
-      loanDate: "desc", 
+      loanDate: "desc",
     },
   });
 };

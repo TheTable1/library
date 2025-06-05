@@ -104,7 +104,7 @@
                                     <!-- Edit Button -->
                                     <UButton v-if="list.status === 'borrowed'" variant="ghost" size="sm" icon="i-lucide-edit" @click="editList(list)" />
                                     <!-- Delete Button -->
-                                    <UButton variant="ghost" size="sm" icon="i-lucide-trash-2"
+                                    <UButton v-if="list.status === 'borrowed'" variant="ghost" size="sm" icon="i-lucide-trash-2"
                                         @click="deleteList(list)" />
                                     <!-- Confirm Return Button (only if still borrowed) -->
                                     <UButton v-if="list.status === 'borrowed'" variant="ghost" size="sm"
