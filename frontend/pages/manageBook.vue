@@ -88,7 +88,7 @@
                 <td class="px-3 py-2 text-sm text-gray-900">{{ b.isbn }}</td>
                 <td class="px-3 py-2 text-sm text-gray-900">{{ b.totalCopies }}</td>
                 <td class="px-3 py-2 text-sm text-gray-900">{{ b.availableCopies }}</td>
-                <td class="px-3 py-2 text-sm font-medium text-green-600">${{ b.price }}</td>
+                <td class="px-3 py-2 text-sm text-gray-900">฿ {{ b.price }}</td>
                 <td class="px-3 py-2 text-sm">
                   <div class="flex items-center space-x-2">
                     <UButton variant="ghost" class="cp" size="sm" icon="i-lucide-eye" @click="viewBook(b)" />

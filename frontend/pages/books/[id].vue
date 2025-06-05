@@ -92,10 +92,10 @@
 
                                     <div class="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors">
                                         <div class="flex items-center space-x-2 text-gray-600 mb-1">
-                                            <UIcon name="i-lucide-dollar-sign" class="text-lg" />
+                                            <UIcon name="i-lucide-wallet" class="text-lg" />
                                             <span class="text-sm font-medium">Price</span>
                                         </div>
-                                        <p class="font-semibold text-gray-900 text-xl">${{ book.price }}</p>
+                                        <p class=" text-gray-900 ">{{ book.price }}</p>
                                     </div>
 
                                     <div class="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors">
@@ -103,11 +103,11 @@
                                             <UIcon name="i-lucide-copy" class="text-lg" />
                                             <span class="text-sm font-medium">Copies</span>
                                         </div>
-                                        <p class="font-semibold">
-                                            <span :class="book.availableCopies > 0 ? 'text-green-600' : 'text-red-600'">
+                                        <p class="font-semibold ">
+                                            <span class="font-bold text-xl" :class="book.availableCopies > 0 ? 'text-green-600' : 'text-red-600'">
                                                 {{ book.availableCopies }}
                                             </span>
-                                            <span class="text-gray-500"> / {{ book.totalCopies }}</span>
+                                            <span class="text-gray-500 font-bold text-xl"> / {{ book.totalCopies }}</span>
                                         </p>
                                     </div>
                                 </div>
