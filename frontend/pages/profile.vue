@@ -1,171 +1,145 @@
 <template>
-    <div class="flex min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div class="flex min-h-screen bg-gray-100">
+        <!-- Sidebar -->
         <AppSidebar />
 
-        <main class="flex-1 p-4 lg:p-8">
-            <div class="max-w-6xl mx-auto">
+        <!-- เนื้อหาหลัก -->
+        <main class="flex-1 p-6 lg:p-10">
+            <div class="max-w-4xl mx-auto space-y-10">
                 <!-- 1. Loading State -->
                 <div v-if="loading"
-                    class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-12 text-center border border-white/20">
+                    class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-12 text-center border border-gray-200">
                     <div class="relative w-16 h-16 mx-auto mb-6">
                         <div class="absolute inset-0 border-4 border-blue-100 rounded-full animate-pulse"></div>
                         <div
                             class="absolute inset-0 border-4 border-blue-500 border-t-transparent rounded-full animate-spin">
                         </div>
                     </div>
-                    <p class="text-slate-600 text-lg font-medium">Loading user details...</p>
+                    <p class="text-gray-600 text-lg font-medium">Loading user details...</p>
                 </div>
 
                 <!-- 2. Error State -->
                 <div v-else-if="error"
-                    class="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-red-100">
-                    <div class="flex items-center space-x-4 text-red-600">
-                        <div class="flex-shrink-0 w-12 h-12 bg-red-50 rounded-full flex items-center justify-center">
-                            <UIcon name="i-lucide-alert-circle" class="text-2xl" />
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-lg">An Error Occurred</h3>
-                            <p class="text-red-500 mt-1">{{ error }}</p>
-                        </div>
+                    class="bg-white rounded-2xl shadow-lg p-8 border border-red-200 flex items-center space-x-4">
+                    <div class="flex-shrink-0 w-12 h-12 bg-red-50 rounded-full flex items-center justify-center">
+                        <UIcon name="i-lucide-alert-circle" class="text-red-500 text-2xl" />
+                    </div>
+                    <div>
+                        <h3 class="text-red-700 font-semibold text-lg">An Error Occurred</h3>
+                        <p class="text-red-500 mt-1">{{ error }}</p>
                     </div>
                 </div>
 
                 <!-- 3. User Detail -->
-                <div v-else-if="user" class="space-y-8 animate-fade-in">
+                <div v-else-if="user" class="space-y-10 animate-fade-in">
                     <!-- User Header -->
-                    <div class="relative overflow-hidden bg-darkblue rounded-3xl shadow-2xl">
-                        <div class="relative p-8 lg:p-12">
+                    <div class="bg-darkblue rounded-3xl shadow-xl overflow-hidden">
+                        <div class="p-8 lg:p-12">
                             <div
-                                class="flex lg:flex-row items-center lg:items-start space-y-6 lg:space-y-0 lg:space-x-8">
+                                class="flex flex-col lg:flex-row items-center lg:items-start space-y-6 lg:space-y-0 lg:space-x-8">
                                 <!-- Avatar -->
-                                <div class="relative group">
+                                <div class="relative group flex-shrink-0">
                                     <div
-                                        class="w-32 h-32 lg:w-40 lg:h-40 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center overflow-hidden border-4 border-white/20 transition-all duration-300">
+                                        class="w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center overflow-hidden border-4 border-white/20 transition-transform duration-300 group-hover:scale-105">
                                         <img v-if="user.photo" :src="user.photo" alt="User photo"
-                                            class="object-cover w-full h-full transition-all duration-300 group-hover:scale-110"
-                                            loading="lazy" />
-                                        <UIcon v-else name="i-lucide-user" class="text-white/60 text-6xl" />
+                                            class="object-cover w-full h-full" loading="lazy" />
+                                        <UIcon v-else name="i-lucide-user" class="text-white/60 text-5xl md:text-6xl" />
                                     </div>
                                 </div>
 
                                 <!-- User Info -->
                                 <div class="flex-1 text-center lg:text-left">
-                                    <h1 class="text-3xl font-bold text-white mb-3 drop-shadow-lg">
+                                    <h1
+                                        class="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-2 lg:mb-3 drop-shadow-lg">
                                         {{ user.firstName }} {{ user.lastName }}
                                     </h1>
-                                    <div
-                                        class="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-3 sm:space-y-0 sm:space-x-6">
+                                    <div class="flex flex-wrap justify-center lg:justify-start gap-2 md:gap-4">
                                         <span
-                                            class="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold bg-white/20 backdrop-blur-sm text-white border border-white/30 transition-all duration-300 hover:bg-white/30 mb-4"
+                                            class="flex items-center px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-semibold bg-white/20 text-white border border-white/30 backdrop-blur-sm"
                                             :class="getRoleGradient(user.role)">
-                                            <UIcon name="i-lucide-shield-check" class="mr-2 text-sm" />
+                                            <UIcon name="i-lucide-shield-check"
+                                                class="mr-1 md:mr-2 text-white text-xs md:text-sm" />
                                             {{ user.role }}
                                         </span>
                                         <span
-                                            class="text-white/80 text-sm font-medium bg-white/10 px-4 py-2 rounded-full backdrop-blur-sm mb-2">
-                                            User ID : {{ user.id }}
-                                        </span>
-                                        <span
-                                            class="text-white/80 text-sm font-medium bg-white/10 px-4 py-2 rounded-full backdrop-blur-sm">
-                                            Member since {{ user.memberSince }}
+                                            class="text-white/80 text-xs md:text-sm font-medium bg-white/10 px-3 py-1 md:px-4 md:py-2 rounded-full backdrop-blur-sm">
+                                            User ID: {{ user.id }}
                                         </span>
                                     </div>
                                 </div>
 
-
-                                <div class="flex">
+                                <!-- Action Buttons -->
+                                <div class="flex mt-3 sm:flex-row items-center sm:items-start gap-3">
+                                    <button @click="openEditProfile"
+                                        class="px-3 py-2 md:px-4 md:py-2 bg-white/50 rounded-xl text-xs md:text-sm font-medium text-slate-800 hover:bg-white/70 transition cp">
+                                        Edit Profile
+                                    </button>
                                     <router-link :to="`/profileDetail/${user.id}`"
-                                        class="px-3 py-2 bg-white/50 rounded-xl text-sm font-medium text-slate-800 hover:bg-white/70 cp mr-3">
+                                        class="px-3 py-2 md:px-4 md:py-2 bg-white/50 rounded-xl text-xs md:text-sm font-medium text-slate-800 hover:bg-white/70 transition">
                                         My List
                                     </router-link>
-                                    <div>
-                                        <button @click="handleLogOut"
-                                            class="px-3 py-2 bg-white/50 rounded-xl text-sm font-medium text-slate-800 hover:bg-white/70 cp">
-                                            Logout
-                                        </button>
-                                    </div>
+                                    <button @click="handleLogOut"
+                                        class="px-3 py-2 md:px-4 md:py-2 bg-white/50 rounded-xl text-xs md:text-sm font-medium text-slate-800 hover:bg-white/70 transition cp">
+                                        Logout
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Information Grid -->
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <!-- Contact Information -->
-                        <div
-                            class="bg-white/70 backdrop-blur-md rounded-3xl border border-slate-200/50 p-8 transition-all duration-300 hover:bg-white/80 hover:border-slate-300/60 hover:shadow-lg">
-                            <div class="mb-8">
-                                <h2 class="text-lg font-medium text-slate-900 mb-2">Contact Information</h2>
-                                <div class="w-12 h-0.5 bg-gradient-to-r from-blue-500 to-transparent"></div>
-                            </div>
-
-                            <div class="space-y-8">
-                                <div class="group">
-                                    <div class="flex items-center space-x-4">
-                                        <div
-                                            class="w-10 h-10 rounded-2xl flex items-center justify-center bg-blue-100 transition-colors duration-200">
-                                            <UIcon name="i-lucide-mail"
-                                                class="text-slate-600 text-blue-600 transition-colors duration-200" />
-                                        </div>
-                                        <div class="flex-1">
-                                            <p class="text-xs font-medium text-slate-500 mb-1">Email</p>
-                                            <p class="text-slate-900 font-medium">{{ user.email }}</p>
-                                        </div>
+                        <div class="bg-white rounded-3xl shadow-md p-6">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Contact Information</h2>
+                            <div class="h-1 w-16 bg-gradient-to-r from-blue-500 to-transparent mb-6"></div>
+                            <div class="space-y-6">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-10 h-10 flex items-center justify-center bg-blue-100 rounded-full">
+                                        <UIcon name="i-lucide-mail" class="text-blue-600 text-xl" />
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Email</p>
+                                        <p class="text-gray-800 font-medium">{{ user.email }}</p>
                                     </div>
                                 </div>
 
-                                <div class="group">
-                                    <div class="flex items-center space-x-4">
-                                        <div
-                                            class="w-10 h-10 rounded-2xl flex items-center justify-center bg-emerald-100 transition-colors duration-200">
-                                            <UIcon name="i-lucide-phone"
-                                                class="text-slate-600 text-emerald-600 transition-colors duration-200" />
-                                        </div>
-                                        <div class="flex-1">
-                                            <p class="text-xs font-medium text-slate-500 mb-1">Phone Number</p>
-                                            <p class="text-slate-900 font-medium">{{ user.phone || 'Not specified' }}
-                                            </p>
-                                        </div>
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-10 h-10 flex items-center justify-center bg-emerald-100 rounded-full">
+                                        <UIcon name="i-lucide-phone" class="text-emerald-600 text-xl" />
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Phone Number</p>
+                                        <p class="text-gray-800 font-medium">{{ user.phone || 'Not specified' }}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Account Information -->
-                        <div
-                            class="bg-white/70 backdrop-blur-md rounded-3xl border border-slate-200/50 p-8 transition-all duration-300 hover:bg-white/80 hover:border-slate-300/60 hover:shadow-lg">
-                            <div class="mb-8">
-                                <h2 class="text-lg font-medium text-slate-900 mb-2">Account Information</h2>
-                                <div class="w-12 h-0.5 bg-gradient-to-r from-purple-500 to-transparent"></div>
-                            </div>
-
-                            <div class="space-y-8">
-                                <div class="group">
-                                    <div class="flex items-center space-x-4">
-                                        <div
-                                            class="w-10 h-10 rounded-2xl flex items-center justify-center bg-purple-100 transition-colors duration-200">
-                                            <UIcon name="i-lucide-shield-check"
-                                                class="text-slate-600 text-purple-600 transition-colors duration-200" />
-                                        </div>
-                                        <div class="flex-1">
-                                            <p class="text-xs font-medium text-slate-500 mb-1">Role</p>
-                                            <p class="text-slate-900 font-medium capitalize">{{ user.role }}</p>
-                                        </div>
+                        <div class="bg-white rounded-3xl shadow-md p-6">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Account Information</h2>
+                            <div class="h-1 w-16 bg-gradient-to-r from-purple-500 to-transparent mb-6"></div>
+                            <div class="space-y-6">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-10 h-10 flex items-center justify-center bg-purple-100 rounded-full">
+                                        <UIcon name="i-lucide-shield-check" class="text-purple-600 text-xl" />
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Role</p>
+                                        <p class="text-gray-800 font-medium capitalize">{{ user.role }}</p>
                                     </div>
                                 </div>
 
-                                <div class="group">
-                                    <div class="flex items-center space-x-4">
-                                        <div
-                                            class="w-10 h-10 rounded-2xl flex items-center justify-center bg-indigo-100 transition-colors duration-200">
-                                            <UIcon name="i-lucide-calendar"
-                                                class="text-slate-600 group-hover:text-indigo-600 transition-colors duration-200" />
-                                        </div>
-                                        <div class="flex-1">
-                                            <p class="text-xs font-medium text-slate-500 mb-1">Member for</p>
-                                            <p class="text-slate-900 font-medium">{{ getDaysAsMember(user.memberSince)
-                                            }} days</p>
-                                        </div>
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-10 h-10 flex items-center justify-center bg-indigo-100 rounded-full">
+                                        <UIcon name="i-lucide-calendar" class="text-indigo-600 text-xl" />
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Member for</p>
+                                        <p class="text-gray-800 font-medium">{{ getDaysAsMember(user.memberSince) }}
+                                            days </p>
+                                        <p class="text-xs text-gray-500">Member since {{ user.memberSince }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -173,29 +147,64 @@
                     </div>
 
                     <!-- Address -->
-                    <div
-                        class="bg-white/70 backdrop-blur-md rounded-3xl border border-slate-200/50 p-8 transition-all duration-300 hover:bg-white/80 hover:border-slate-300/60 hover:shadow-lg">
-                        <div class="mb-8">
-                            <h2 class="text-lg font-medium text-slate-900 mb-2">Address</h2>
-                            <div class="w-12 h-0.5 bg-gradient-to-r from-emerald-500 to-transparent"></div>
-                        </div>
-
-                        <div class="group">
-                            <div class="flex items-start space-x-4">
-                                <div
-                                    class="w-10 h-10 rounded-2xl flex items-center justify-center bg-emerald-100 transition-colors duration-200 flex-shrink-0 mt-1">
-                                    <UIcon name="i-lucide-map-pin"
-                                        class="text-slate-600 text-emerald-600 transition-colors duration-200" />
-                                </div>
-                                <div class="flex-1 pt-2">
-                                    <p class="text-slate-900 font-medium leading-relaxed">
-                                        {{ user.address || 'No address specified' }}
-                                    </p>
-                                </div>
+                    <div class="bg-white rounded-3xl shadow-md p-6">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-4">Address</h2>
+                        <div class="h-1 w-16 bg-gradient-to-r from-emerald-500 to-transparent mb-6"></div>
+                        <div class="flex items-start space-x-4">
+                            <div class="w-10 h-10 flex items-center justify-center bg-emerald-100 rounded-full mt-1">
+                                <UIcon name="i-lucide-map-pin" class="text-emerald-600 text-xl" />
+                            </div>
+                            <div>
+                                <p class="text-gray-800 font-medium leading-relaxed">{{ user.address || 'No addressspecified' }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Edit Profile Modal -->
+                <div v-if="showEditProfile" class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
+                    <div class="bg-white rounded-2xl shadow-xl w-full max-w-md">
+                        <div class="bg-darkblue text-white px-6 py-4 flex justify-between items-center rounded-t-2xl">
+                            <h3 class="text-xl font-semibold">Edit Profile</h3>
+                            <button @click="closeEditProfile" class="text-white text-2xl cp">
+                                <UIcon name="i-lucide-x" />
+                            </button>
+                        </div>
+                        <div class="p-6">
+                            <form @submit.prevent="submitEditProfile" class="space-y-4">
+                                <!-- New Password -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                                    <input v-model="editForm.password" type="password"
+                                        class="text-darkblue w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                                        placeholder="New Password" />
+                                </div>
+
+                                <!-- Confirm Password -->
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                                    <input v-model="editForm.confirmPassword" type="password"
+                                        class="text-darkblue w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200"
+                                        placeholder="Confirm Password" />
+                                    <p v-if="confirmError" class="mt-1 text-red-500 text-xs">{{ confirmError }}</p>
+                                </div>
+
+                                <!-- Actions -->
+                                <div class="flex justify-end space-x-4 pt-4 border-t border-gray-200">
+                                    <button type="button" @click="closeEditProfile"
+                                        class="px-5 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                                        Cancel
+                                    </button>
+                                    <button type="submit"
+                                        class="px-5 py-2 bg-darkblue text-white rounded-lg hover:bg-indigo-700 transition">
+                                        Save Changes
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Modal -->
             </div>
         </main>
     </div>
@@ -204,13 +213,20 @@
 <script setup>
 import AppSidebar from '@/components/AppSidebar.vue'
 import { ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 
-const route = useRoute()
-const router = useRouter()
 const user = ref(null)
 const loading = ref(false)
 const error = ref('')
+const showEditProfile = ref(false)
+const editForm = ref({
+    id: null,
+    password: '',
+    confirmPassword: ''
+})
+const confirmError = ref('')
+
+const router = useRouter()
 
 function getToken() {
     return localStorage.getItem('token') || ''
@@ -230,37 +246,33 @@ function isTokenExpired(token) {
 function getRoleGradient(role) {
     const gradients = {
         admin: 'bg-gradient-to-r from-red-500/20 to-orange-500/20 border-red-300/50',
-        user: 'bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border-blue-300/50',
+        user: 'bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border-blue-300/50'
     }
     return gradients[role.toLowerCase()] || 'bg-gradient-to-r from-gray-500/20 to-slate-500/20 border-gray-300/50'
 }
 
 function getDaysAsMember(memberSinceText) {
     if (!memberSinceText) return 0
-
     try {
         const thaiMonths = {
             'มกราคม': 0, 'กุมภาพันธ์': 1, 'มีนาคม': 2, 'เมษายน': 3,
             'พฤษภาคม': 4, 'มิถุนายน': 5, 'กรกฎาคม': 6, 'สิงหาคม': 7,
             'กันยายน': 8, 'ตุลาคม': 9, 'พฤศจิกายน': 10, 'ธันวาคม': 11
         }
-
         const parts = memberSinceText.split(' ')
         if (parts.length >= 3) {
             const day = parseInt(parts[0])
             const month = thaiMonths[parts[1]]
-            const year = parseInt(parts[2]) - 543 // แปลง พ.ศ. เป็น ค.ศ.
-
+            const year = parseInt(parts[2]) - 543
             if (!isNaN(day) && month !== undefined && !isNaN(year)) {
                 const memberDate = new Date(year, month, day)
                 const today = new Date()
                 const diffTime = Math.abs(today - memberDate)
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-                return diffDays.toLocaleString()
+                return Math.ceil(diffTime / (1000 * 60 * 60 * 24))
             }
         }
-    } catch (e) {
-        console.error('Error parsing date:', e)
+    } catch {
+        return 0
     }
     return 0
 }
@@ -277,7 +289,7 @@ async function fetchUser() {
     }
 
     try {
-        const res = await $fetch(`/users/me`, {
+        const res = await $fetch('/users/me', {
             baseURL: 'http://localhost:3000',
             headers: { Authorization: `Bearer ${token}` }
         })
@@ -294,5 +306,63 @@ function handleLogOut() {
     router.push('/login')
 }
 
+function openEditProfile() {
+    if (user.value) {
+        editForm.value = {
+            id: user.value.id,
+            password: '',
+            confirmPassword: ''
+        }
+        confirmError.value = ''
+        showEditProfile.value = true
+    }
+}
+
+function closeEditProfile() {
+    showEditProfile.value = false
+    confirmError.value = ''
+}
+
+async function submitEditProfile() {
+    confirmError.value = ''
+    if (editForm.value.password && editForm.value.password !== editForm.value.confirmPassword) {
+        confirmError.value = 'Passwords do not match'
+        return
+    }
+
+    const token = getToken()
+    if (!token) {
+        router.push('/login')
+        return
+    }
+    const payload = {
+        ...(editForm.value.password && { password: editForm.value.password })
+    }
+    try {
+        await $fetch(`/users/${editForm.value.id}`, {
+            method: 'PUT',
+            baseURL: 'http://localhost:3000',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: payload
+        })
+        await fetchUser()
+        closeEditProfile()
+    } catch (e) {
+        error.value = e.data?.message || e.message || 'Failed to update profile'
+    }
+}
+
 onMounted(fetchUser)
 </script>
+
+<!-- <style scoped>
+@media (max-width: 640px) {
+    .fixed.inset-0 .max-w-md {
+        max-width: 100%;
+        margin: 0 1rem;
+    }
+}
+</style> -->

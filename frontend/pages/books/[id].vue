@@ -113,14 +113,14 @@
                                 </div>
 
                                 <!-- Categories Section -->
-                                <div class="flex bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl py-3 px-5">
-                                    <div class="flex items-center space-x-2 ">
+                                <div class=" md:flex bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl py-3 px-5">
+                                    <div class="flex items-center space-x-2 mb-3 md:mb-0">
                                         <UIcon name="i-lucide-tag" class="text-xl text-blue-600" />
-                                        <h3 class="text-md font-semibold text-gray-900">Categories</h3>
+                                        <h3 class="text-md font-semibold text-gray-900 ">Categories</h3>
                                     </div>
                                     <div class="flex flex-wrap gap-3 ps-3">
                                         <span v-for="cat in book.categories" :key="cat.id"
-                                            class="inline-flex items-center px-2 py-1 bg-white text-blue-700 rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                                            class="inline-flex items-center px-2 py-1 bg-white text-blue-700 rounded-full text-sm font-medium shadow-sm transition-shadow ">
                                             {{ cat.name }}
                                         </span>
                                         <span v-if="book.categories.length === 0"

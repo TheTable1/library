@@ -63,10 +63,27 @@ const createUser = async (data) => {
 };
 
 const updateUser = async (id, data) => {
+  const { fName, lName, phone, address, password } = data;
+
+  let hashedPassword;
+  if (password) {
+    const salt = await bcrypt.genSalt(10);
+    hashedPassword = await bcrypt.hash(password, salt);
+  }
+
+  const updateData = {
+    ...(fName !== undefined && { fName }),
+    ...(lName !== undefined && { lName }),
+    ...(phone !== undefined && { phone }),
+    ...(address !== undefined && { address }),
+    ...(hashedPassword && { password: hashedPassword }),
+  };
+
   const updated = await prisma.user.update({
     where: { id: Number(id) },
-    data,
+    data: updateData,
   });
+
   return {
     id: updated.uId,
     fName: updated.fName,

@@ -64,13 +64,35 @@
                 <tbody class="bg-white divide-y divide-gray-200">
                   <tr v-for="book in filteredBooks" :key="book.id">
                     <td class="px-3 py-2">
+                      <label class="inline-flex items-center cursor-pointer group">
                       <input
                         type="checkbox"
                         :value="book.id"
                         v-model="form.bookIds"
-                        class="h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                        class="sr-only"
                       />
+                      <div class="relative">
+                        <div class="w-6 h-6 border-2 rounded-md transition-all duration-300 ease-in-out group-hover:shadow-sm flex items-center justify-center"
+                             :class="form.bookIds.includes(book.id) 
+                               ? 'bg-darkblue shadow-md' 
+                               : 'bg-white border-gray-300 group-hover:border-indigo-400'">
+                          <!-- Checkmark Icon - Always present but conditionally visible -->
+                          <svg class="w-4 h-4 transition-all duration-200"
+                               :class="form.bookIds.includes(book.id) ? 'text-white scale-100' : 'text-transparent scale-0'"
+                               fill="none" 
+                               stroke="currentColor" 
+                               viewBox="0 0 24 24"
+                               stroke-width="3">
+                            <path stroke-linecap="round" 
+                                  stroke-linejoin="round" 
+                                  d="M5 13l4 4L19 7">
+                            </path>
+                          </svg>
+                        </div>
+                      </div>
+                    </label>
                     </td>
+                    
                     <td class="px-4 py-2 text-sm text-gray-800">{{ book.name }}</td>
                     <td class="px-4 py-2 text-sm text-gray-800">{{ book.author }}</td>
                     <td class="px-4 py-2 text-sm text-gray-800">{{ book.availableCopies }}</td>

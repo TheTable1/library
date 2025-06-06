@@ -78,25 +78,51 @@
           </div>
 
           <!-- Information Grid -->
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="grid grid-cols-1 gap-6">
             <!-- 3.2 User’s List Records Card -->
             <div
               class="bg-white/80 backdrop-blur-md rounded-3xl border border-slate-200/60 p-6 lg:p-8 transition-all duration-300 hover:bg-white/90 hover:border-slate-300/60 hover:shadow-lg">
               <!-- Card Header -->
               <div class="flex items-center mb-6">
                 <div
-                  class="w-12 h-12 flex-shrink-0 rounded-full flex items-center justify-center bg-blue-100 text-blue-600 mr-3">
+                  class="w-12 h-12 flex-shrink-0 rounded-full flex items-center justify-center bg-blue-100 text-darkblue mr-3">
                   <UIcon name="i-lucide-book-open" class="text-2xl" />
                 </div>
                 <h2 class="text-xl font-semibold text-slate-900">
                   All Borrow Lists
                 </h2>
               </div>
+
+              <!-- Filter Buttons -->
+              <div class="flex gap-3 mb-6">
+                <button
+                  @click="filterStatus = 'borrowed'"
+                  :class="[
+                    'px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-200',
+                    filterStatus === 'borrowed'
+                      ? 'bg-darkblue text-white'
+                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  ]"
+                >
+                  Borrowed
+                </button>
+                <button
+                  @click="filterStatus = 'returned'"
+                  :class="[
+                    'px-3 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-200',
+                    filterStatus === 'returned'
+                      ? 'bg-darkblue text-white'
+                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  ]"
+                >
+                  Returned
+                </button>
+              </div>
               <div class="h-0.5 w-16 bg-gradient-to-r from-blue-500 to-transparent mb-6"></div>
 
               <!-- If there are lists -->
               <div v-if="lists.length" class="space-y-6">
-                <div v-for="list in lists" :key="list.id"
+                <div v-for="list in filteredLists" :key="list.id"
                   class="flex flex-col bg-white rounded-2xl border-l-4 p-4 shadow-sm border-blue-400 transition-colors duration-200 hover:bg-blue-50">
                   <!-- Top Row: ID + Status -->
                   <div class="flex justify-between items-center mb-3">
@@ -140,7 +166,7 @@
                     </p>
                     <div class="flex flex-wrap gap-2">
                       <router-link :to="`/books/${lb.book.id}`" v-for="lb in list.listBooks" :key="lb.id"
-                        class="bg-blue-100 text-blue-700 text-sm font-medium px-3 py-1 rounded-full transition-colors duration-200 hover:bg-blue-200">
+                        class="bg-blue-100 text-darkblue text-sm font-medium px-3 py-1 rounded-full transition-colors duration-200 hover:bg-blue-200">
                         {{ lb.book.name }}
                       </router-link>
                     </div>
@@ -179,6 +205,7 @@ const loadingUser = ref(false);
 const loadingLists = ref(false);
 const errorUser = ref("");
 const errorLists = ref("");
+const filterStatus = ref("borrowed"); 
 
 function getToken() {
   return localStorage.getItem("token") || "";
@@ -243,6 +270,10 @@ function getRoleGradient(role) {
     "bg-gradient-to-r from-gray-500/20 to-slate-500/20 border-gray-300/50"
   );
 }
+
+const filteredLists = computed(() => {
+  return lists.value.filter((item) => item.status === filterStatus.value);
+});
 
 onMounted(() => {
   fetchUser();
