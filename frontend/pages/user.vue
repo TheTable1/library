@@ -104,10 +104,10 @@
                   </span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  <div class="flex space-x-2">
-                    <UButton variant="ghost" class="cp" size="sm" icon="i-lucide-eye" @click="viewUser(user)" />
-                    <UButton variant="ghost" class="cp" size="sm" icon="i-lucide-edit" @click="openEdit(user)" />
-                    <UButton variant="ghost" class="cp" size="sm" icon="i-lucide-trash" @click="deleteUser(user)" />
+                  <div class="flex space-x-2 text-green-500">
+                    <UButton variant="ghost" class="cp hover:bg-green-100" size="sm" icon="i-lucide-eye" @click="viewUser(user)" />
+                    <UButton variant="ghost" class="cp hover:bg-green-100" size="sm" icon="i-lucide-edit" @click="openEdit(user)" />
+                    <UButton variant="ghost" class="cp hover:bg-green-100" size="sm" icon="i-lucide-trash" @click="deleteUser(user)" />
                   </div>
                 </td>
               </tr>

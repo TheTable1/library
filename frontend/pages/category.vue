@@ -23,9 +23,9 @@
                 />
               </div>
               <!-- Add Category Button -->
-              <UButton @click="openCreate" variant="primary" class="px-4 py-2 flex items-center space-x-2 cp bg-darkblue mt-5">
+              <UButton @click="openCreate" variant="primary" class="px-4 py-2 flex items-center space-x-2 cp bg-darkblue mt-5 text-white">
                 <UIcon name="i-lucide-plus-circle" />
-                <span>Add Category</span>
+                <span >Add Category</span>
               </UButton>
             </div>
           </div>
@@ -85,17 +85,17 @@
                   <td class="px-3 py-2 text-sm text-gray-900 whitespace-nowrap">{{ cat.name }}</td>
                   <td class="px-3 py-2 text-sm text-gray-900 whitespace-nowrap">{{ cat.detail || '-' }}</td>
                   <td class="px-3 py-2 text-sm whitespace-nowrap">
-                    <div class="flex items-center space-x-2">
+                    <div class="flex items-center space-x-2 text-green-500">
                       <UButton
                         variant="ghost"
-                        class="cp"
+                        class="cp hover:bg-green-100"
                         size="sm"
                         icon="i-lucide-edit"
                         @click="openEdit(cat)"
                       />
                       <UButton
                         variant="ghost"
-                        class="cp"
+                        class="cp hover:bg-green-100"
                         size="sm"
                         icon="i-lucide-trash"
                         @click="deleteCategory(cat)"

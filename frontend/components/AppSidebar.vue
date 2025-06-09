@@ -63,6 +63,25 @@
                 <span v-show="!isCollapsed">Book</span>
               </router-link>
             </li>
+            <li>
+              <router-link
+                to="/favorite"
+                :class="[
+                  'flex items-center py-2.5 text-sm font-medium rounded-lg transition-colors duration-200',
+                  isCollapsed ? 'justify-center' : 'pl-3 pr-2',
+                  isActive('/favorite')
+                    ? 'bg-white text-darkblue'
+                    : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                ]"
+              >
+                <UIcon
+                  name="i-lucide-heart"
+                  class="text-lg flex-shrink-0"
+                  :class="isCollapsed ? '' : 'mr-3'"
+                />
+                <span v-show="!isCollapsed">Favorite</span>
+              </router-link>
+            </li>
           </ul>
         </div>
 

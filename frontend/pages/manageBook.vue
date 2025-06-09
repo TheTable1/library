@@ -20,7 +20,7 @@
                 class="pl-10 pr-4 py-2 border rounded-lg w-full sm:w-64 focus:outline-none focus:ring-2 focus:ring-indigo-200 border-gray-300 text-darkblue" />
             </div>
             <!-- Add Book Button -->
-            <UButton @click="openCreate" variant="primary" class="px-4 py-2 flex items-center space-x-2 cp bg-darkblue mt-5">
+            <UButton @click="openCreate" variant="primary" class="px-4 py-2 flex items-center space-x-2 cp bg-darkblue mt-5 text-white">
               <UIcon name="i-lucide-book-plus" />
               <span>Add Book</span>
             </UButton>
@@ -90,10 +90,10 @@
                 <td class="px-3 py-2 text-sm text-gray-900">{{ b.availableCopies }}</td>
                 <td class="px-3 py-2 text-sm text-gray-900">฿ {{ b.price }}</td>
                 <td class="px-3 py-2 text-sm">
-                  <div class="flex items-center space-x-2">
-                    <UButton variant="ghost" class="cp" size="sm" icon="i-lucide-eye" @click="viewBook(b)" />
-                    <UButton variant="ghost" class="cp" size="sm" icon="i-lucide-edit" @click="openEdit(b)" />
-                    <UButton variant="ghost" class="cp" size="sm" icon="i-lucide-trash" @click="deleteBook(b)" />
+                  <div class="flex items-center space-x-2 text-green-500 ">
+                    <UButton variant="ghost" class="cp hover:bg-green-100" size="sm" icon="i-lucide-eye" @click="viewBook(b)" />
+                    <UButton variant="ghost" class="cp hover:bg-green-100" size="sm" icon="i-lucide-edit" @click="openEdit(b)" />
+                    <UButton variant="ghost" class="cp hover:bg-green-100" size="sm" icon="i-lucide-trash" @click="deleteBook(b)" />
                   </div>
                 </td>
               </tr>

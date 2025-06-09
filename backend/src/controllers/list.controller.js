@@ -96,9 +96,10 @@ const getUserList = {
 const createList = {
   description: "Create a new borrowing list",
   tags: ["api", "lists"],
-  auth: { 
-    strategy: "jwt", 
-    scope: ["admin"] },
+  auth: {
+    strategy: "jwt",
+    scope: ["admin"]
+  },
   validate: {
     payload: validateZod(createListSchema),
   },
@@ -152,7 +153,7 @@ const updateList = {
   },
   validate: {
     params: validateZod(idParamSchema),
-    payload: validateZod(updateListSchema), 
+    payload: validateZod(updateListSchema),
   },
   handler: async (request, h) => {
     try {

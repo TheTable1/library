@@ -33,7 +33,7 @@ const getAllUsers = {
 const getMe = {
   description: "Get logged in user profile",
   tags: ["api", "users"],
-  auth: { strategy: "jwt" }, 
+  auth: { strategy: "jwt" },
   handler: async (request, h) => {
     try {
       const { id } = request.auth.credentials;
@@ -72,7 +72,7 @@ const getUserById = {
 const createUser = {
   description: "Create a new user",
   tags: ["api", "users"],
-  auth: false, 
+  auth: false,
   validate: {
     payload: validateZod(createUserSchema),
   },
