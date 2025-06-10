@@ -63,7 +63,7 @@ const createUser = async (data) => {
 };
 
 const updateUser = async (id, data) => {
-  const { fName, lName, phone, address, password } = data;
+  const { fName, lName, phone, address, password, photo } = data;
 
   let hashedPassword;
   if (password) {
@@ -77,6 +77,7 @@ const updateUser = async (id, data) => {
     ...(phone !== undefined && { phone }),
     ...(address !== undefined && { address }),
     ...(hashedPassword && { password: hashedPassword }),
+    ...(photo !== undefined && { photo }),
   };
 
   const updated = await prisma.user.update({

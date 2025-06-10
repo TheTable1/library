@@ -27,6 +27,7 @@ const updateUserSchema = z
       .string()
       .min(2, "Address must be at least 2 characters long")
       .optional(),
+    photo: z.string().url("Invalid URL format").optional(),
   })
   .refine((data) => Object.keys(data).length > 0, {
     message: "At least one field must be provided for update",
