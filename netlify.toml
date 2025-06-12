@@ -1,8 +1,7 @@
 [build]
-  # ถ้าใน UI คุณตั้ง Base directory เป็น "frontend" แล้ว ก็ไม่ต้องระบุ base ใน toml อีก
+  base    = "frontend"                  # ถ้า UI ไม่ได้ตั้ง Base ให้ใส่บรรทัดนี้
   command = "npm install && npm run generate"
-  # โฟลเดอร์ที่ Nuxt3 สร้างไฟล์ static มาให้ (nuxi generate)
-  publish = "frontend/.output/public"
+  publish = ".output/public"   
 
 [functions]
   directory = ".output/server"     # ← เปลี่ยนจาก frontend/.output/server เป็น .output/server
