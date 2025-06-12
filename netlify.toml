@@ -1,12 +1,13 @@
+# netlify.toml
 [build]
-  base    = "frontend"                  # ถ้า UI ไม่ได้ตั้ง Base ให้ใส่บรรทัดนี้
-  command = "npm install && npm run generate"
-  publish = ".output/public"   
+  # ถ้า Netlify UI ตั้ง Base directory = "frontend" ไว้แล้ว ก็ไม่ต้องกำหนด base ใน toml
+  # base      = "frontend"
+  command   = "npm install && npm run build"
+  publish   = "frontend/.output/public"
+  functions = "frontend/.output/server"
 
-[functions]
-  directory = ".output/server"     # ← เปลี่ยนจาก frontend/.output/server เป็น .output/server
-
+# ถ้าคุณใช้ SSR ต้อง redirect ทุกหน้าไปที่ฟังก์ชัน server
 [[redirects]]
-  from   = "/*"
-  to     = "/.netlify/functions/server"
-  status = 200
+  from    = "/*"
+  to      = "/.netlify/functions/server"
+  status  = 200
