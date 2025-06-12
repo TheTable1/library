@@ -1,12 +1,11 @@
-# netlify.toml
 [build]
-  # ถ้า Netlify UI ตั้ง Base directory = "frontend" ไว้แล้ว ก็ไม่ต้องกำหนด base ใน toml
-  # base      = "frontend"
-  command   = "npm install && npm run build"
-  publish   = "frontend/.output/public"
-  functions = "frontend/.output/server"
+  # บอก Netlify ว่า base directory คือ frontend (ถ้าไม่ตั้งใน UI ก็ให้ uncomment บรรทัดนี้)
+  base      = "frontend"
 
-# ถ้าคุณใช้ SSR ต้อง redirect ทุกหน้าไปที่ฟังก์ชัน server
+  command   = "npm install && npm run build"
+  publish   = ".output/public"       # <-- เอา “frontend/” ออก
+  functions = ".output/server"       # <-- เอา “frontend/” ออก
+
 [[redirects]]
   from    = "/*"
   to      = "/.netlify/functions/server"
