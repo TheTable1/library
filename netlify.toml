@@ -1,8 +1,8 @@
-# netlify.toml (วางที่ root ของ repo)
 [build]
-  base    = "frontend"
-  command = "npm install && npm run build"
-  publish = ".output/public"       # ← เปลี่ยนจาก frontend/.output/public เป็น .output/public
+  # ถ้าใน UI คุณตั้ง Base directory เป็น "frontend" แล้ว ก็ไม่ต้องระบุ base ใน toml อีก
+  command = "npm install && npm run generate"
+  # โฟลเดอร์ที่ Nuxt3 สร้างไฟล์ static มาให้ (nuxi generate)
+  publish = "frontend/.output/public"
 
 [functions]
   directory = ".output/server"     # ← เปลี่ยนจาก frontend/.output/server เป็น .output/server
