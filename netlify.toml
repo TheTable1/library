@@ -1,10 +1,11 @@
+# netlify.toml (วางที่ root ของ repo)
 [build]
   base    = "frontend"
   command = "npm install && npm run build"
-  publish = "frontend/.output/public"
+  publish = ".output/public"       # ← เปลี่ยนจาก frontend/.output/public เป็น .output/public
 
 [functions]
-  directory = "frontend/.output/server"
+  directory = ".output/server"     # ← เปลี่ยนจาก frontend/.output/server เป็น .output/server
 
 [[redirects]]
   from   = "/*"
