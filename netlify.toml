@@ -1,12 +1,9 @@
 [build]
-  # บอก Netlify ว่า base directory คือ frontend (ถ้าไม่ตั้งใน UI ก็ให้ uncomment บรรทัดนี้)
-  base      = "frontend"
-
   command   = "npm install && npm run build"
-  publish   = ".output/public"       # <-- เอา “frontend/” ออก
-  functions = ".output/server"       # <-- เอา “frontend/” ออก
+  publish   = ".output/public"
+  functions = ".output/server"
 
 [[redirects]]
-  from    = "/*"
-  to      = "/.netlify/functions/server"
-  status  = 200
+  from   = "/*"
+  to     = "/.netlify/functions/server"
+  status = 200
