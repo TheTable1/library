@@ -1,0 +1,12 @@
+# netlify.toml (วางที่ root)
+[build]
+  base    = "frontend"               # เข้าไปทำงานในโฟลเดอร์ frontend ก่อน
+  command = "npm install && npm run build"
+  publish = ".output/public"         # โฟลเดอร์ผลลัพธ์หลัง build (relative ต่อ base)
+
+# (ถ้าต้องการ proxy /api/* ไป backend)
+[[redirects]]
+  from    = "/api/*"
+  to      = "https://your-backend.example.com/:splat"
+  status  = 200
+  force   = true
