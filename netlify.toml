@@ -1,0 +1,21 @@
+# netlify.toml
+[build]
+  # คำสั่งให้ Netlify ไป build ในไดเรกทอรี frontend
+  base    = "frontend"
+  # คำสั่ง build (จะรัน npm install + nuxt build)
+  command = "npm install && npm run build"
+  # ไดเรกทอรีที่ Netlify จะเอาไป serve
+  publish = "frontend/.output/public"
+
+# ถ้าอยากตั้ง environment variables
+[context.production.environment]
+  DATABASE_URL = "$DATABASE_URL"
+  JWT_SECRET   = "$JWT_SECRET"
+
+# (ถ้าคุณมี API แยก backend)
+# สร้าง redirect ให้ /api/* ไปยิง backend จริง
+[[redirects]]
+  from = "/api/*"
+  to   = "https://your-backend.example.com/:splat"
+  status = 200
+  force = true
