@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     '~/assets/css/tailwind.css'
   ],
   nitro: {
-    compatibilityDate: '2025-05-27'
+    compatibilityDate: '2025-05-27',
+    preset: 'netlify'
   }
 })
